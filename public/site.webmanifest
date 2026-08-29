@@ -1,0 +1,16 @@
+{
+  "name": "MK Metales",
+  "short_name": "MK Metales",
+  "lang": "es",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#1E232B",
+  "theme_color": "#1E232B",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "1254x1254"
+    }
+  ]
+}

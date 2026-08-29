@@ -3,6 +3,10 @@ export const sustentabilidadPageMeta = {
   description:
     "Conocé cómo MK Metales recupera y valoriza scrap industrial metálico para reincorporarlo como materia prima en nuevos procesos productivos.",
   canonicalPath: "/sustentabilidad",
+  breadcrumbs: [
+    { name: "Inicio", path: "/" },
+    { name: "Sustentabilidad", path: "/sustentabilidad" },
+  ],
 } as const;
 
 export const SUSTAINABILITY_CYCLE_ID = "ciclo-del-metal";

@@ -10,6 +10,10 @@ export const cotizadorPageMeta = {
   description:
     "Cotizá scrap industrial metálico según material y peso aproximado. Obtené una referencia inicial y solicitá una evaluación comercial.",
   canonicalPath: "/cotizador",
+  breadcrumbs: [
+    { name: "Inicio", path: "/" },
+    { name: "Cotizador", path: "/cotizador" },
+  ],
 } as const;
 
 export const QUOTE_SUMMARY_ID = "cotizacion-resumen";

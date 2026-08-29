@@ -63,9 +63,9 @@ export const FaqSection = () => {
                 </FaqQuestionHeadingElement>
                 <FaqPanelElement
                   id={panelId}
+                  $open={isOpen}
                   role="region"
                   aria-labelledby={buttonId}
-                  hidden={!isOpen}
                 >
                   <FaqPanelInnerElement>
                     <FaqAnswerElement>

@@ -241,13 +241,13 @@ export const FaqQuestionIconElement = styled.span<{ $open: boolean }>`
   }
 `;
 
-export const FaqPanelElement = styled.div`
-  &[hidden] {
-    display: none;
-  }
+export const FaqPanelElement = styled.div<{ $open: boolean }>`
+  display: grid;
+  grid-template-rows: ${({ $open }) => ($open ? "1fr" : "0fr")};
 `;
 
 export const FaqPanelInnerElement = styled.div`
+  min-height: 0;
   overflow: hidden;
 `;
 

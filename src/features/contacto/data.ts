@@ -28,6 +28,10 @@ export const contactoPageMeta = {
   description:
     "Contactá a MK Metales para evaluar scrap industrial, materiales, volúmenes y operaciones comerciales.",
   canonicalPath: "/contacto",
+  breadcrumbs: [
+    { name: "Inicio", path: "/" },
+    { name: "Contacto", path: "/contacto" },
+  ],
 } as const;
 
 export const CONTACT_FORM_ID = "contacto-form";

@@ -3,6 +3,14 @@ export const solucionesPageMeta = {
   description:
     "Soluciones B2B para empresas que generan scrap industrial metálico. Evaluación de materiales, operaciones recurrentes, grandes volúmenes y valorización.",
   canonicalPath: "/soluciones-industriales",
+  includeService: true,
+  breadcrumbs: [
+    { name: "Inicio", path: "/" },
+    {
+      name: "Soluciones industriales",
+      path: "/soluciones-industriales",
+    },
+  ],
 } as const;
 
 export const solutionsHeroCopy = {

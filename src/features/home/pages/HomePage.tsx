@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { useDocumentMeta } from "@app/seo";
+import heroImage from "@assets/home/MK_Metales_Hero_1.png";
 import { HeroBanner } from "../components/heroBanner/HeroBanner";
 import { ClosingCtaSection } from "../components/closingCtaSection/ClosingCtaSection";
 import { FaqSection } from "../components/faqSection/FaqSection";
@@ -11,7 +13,15 @@ import { homePageMeta } from "../data";
 import { HomePageElement } from "./HomePage.elements";
 
 export const HomePage = () => {
-  useDocumentMeta(homePageMeta);
+  const meta = useMemo(
+    () => ({
+      ...homePageMeta,
+      preloadImage: heroImage,
+    }),
+    [],
+  );
+
+  useDocumentMeta(meta);
 
   return (
     <HomePageElement>

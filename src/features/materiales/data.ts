@@ -3,6 +3,10 @@ export const materialesPageMeta = {
   description:
     "Conocé los rezagos industriales metálicos que evalúa MK Metales: bronce, aluminio, plomo, zinc, acero inoxidable, virutas, baterías y más.",
   canonicalPath: "/materiales",
+  breadcrumbs: [
+    { name: "Inicio", path: "/" },
+    { name: "Materiales", path: "/materiales" },
+  ],
 } as const;
 
 export const materialsHeroCopy = {
