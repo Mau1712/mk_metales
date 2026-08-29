@@ -1,0 +1,82 @@
+---
+description: SEO, contenido, metadata y HTML semántico de MK Metales. Complementa la rule de negocio; no inventar datos ni generar páginas vacías.
+alwaysApply: true
+---
+
+# MK Metales — SEO y contenido
+
+Complementa `.cursor/rules/mk-metales-business.mdc`. El negocio manda: SEO sirve para que una empresa con scrap industrial **encuentre, entienda y cotice**. Si una decisión SEO no ayuda a eso, no es prioritaria.
+
+Público orgánico: industrias, fábricas, metalúrgicas, talleres, grandes empresas y responsables de mantenimiento, producción, compras o residuos. Priorizar intención **comercial**, no tráfico genérico.
+
+Flujo: Google → página relevante → entiende el servicio → materiales/precios → cotiza → contacta → lead.
+
+## Semántica
+
+Preferir: scrap industrial, rezagos industriales/metálicos, compra de scrap/metales, reciclaje industrial, recuperación, valorización, economía circular, materias primas secundarias, fundiciones, cotización.
+
+`chatarra` solo si aporta SEO o búsqueda. No es la identidad. Preferir **scrap industrial**, **rezagos industriales**, **materiales metálicos**, **recuperación de metales**.
+
+Antes de crear contenido, identificar la intención:
+
+- **Comercial** (máxima prioridad): compra/venta de scrap o metales industriales, reciclaje para empresas.
+- **Precio/cotización**: ligar a `/cotizador` y futuras `/materiales/{material}`. Nunca presentar una referencia de mercado como precio contractual.
+- **Informacional**: autoridad (qué es scrap, valorización, economía circular). No artículos solo para keywords.
+
+## Arquitectura
+
+Rutas indexables previstas: `/`, `/cotizador`, `/materiales`, `/soluciones-industriales`, `/sustentabilidad`, `/contacto`.
+
+Futuras: `/materiales/bronce`, `/aluminio`, `/plomo`, `/zinc`, `/acero-inoxidable`. Cada una debe explicar: qué compra MK, tipos de rezago, factores de valorización, cotización, quién lo genera, qué pasa después, CTA a cotizador y contacto. No “Compramos X. Contáctanos.”
+
+No crear páginas sin contenido real. No granjas programáticas cambiando una keyword. Resultados del cotizador **no** generan URLs indexables (`/cotizador/aluminio/500kg`, querystrings, etc.). Canonical de `/cotizador?material=bronce&peso=500` → `/cotizador`, salvo estrategia explícita.
+
+Links internos útiles, no por SEO: Home → Materiales → material → Cotizador → Contacto; Soluciones → Cotizador; Sustentabilidad → Soluciones.
+
+## Metadata
+
+Cada ruta indexable: `<title>` único, meta description propia, canonical, Open Graph (`og:title`, `og:description`, `og:url`, `og:type`, `og:image`) y Twitter/X card.
+
+Titles conceptuales: `Compra de Scrap Industrial | MK Metales`. Evitar title genérico `MK Metales` y keyword stuffing.
+
+Descriptions: servicio claro, intención natural, incentivo al clic, fieles al contenido. No duplicar. No prometer mejor precio, retiro inmediato, cobertura nacional ni pago inmediato sin confirmación del negocio.
+
+Imagen social: identidad MK Metales, no stock aleatorio si hay material propio.
+
+`sitemap.xml`: solo URLs públicas, canónicas, indexables, con contenido. Sin parámetros, errores, privadas ni temporales.
+
+`robots.txt`: no bloquear assets de render. Indexación pública **solo producción**; development/staging/preview no indexables.
+
+## Schema (JSON-LD)
+
+Evaluar `Organization`, `LocalBusiness`, `RecyclingCenter` si describe bien la actividad, `Service`, `FAQPage` con FAQ real, `BreadcrumbList` en internas. **Nunca** inventar dirección, teléfono, horario, coordenadas, ratings, reviews, certificaciones, precios ni área de servicio.
+
+SEO local y NAP (Name, Address, Phone) solo con ciudad/zona/operación **confirmadas**. No landings de ciudades donde no operen. Google Business Profile si hay ubicación comercial válida; NAP consistente con el sitio.
+
+## Precios en contenido
+
+Diferenciar **precio internacional de referencia** vs **precio de compra MK Metales**. Una API externa no es oferta. Cuando haya referencia: moneda, unidad, fecha, tipo/fuente, disclaimer. Ej.: el precio final depende de tipo, calidad, volumen, presentación, ubicación y condiciones comerciales.
+
+## Copy B2B
+
+Lotes industriales, grandes volúmenes, generación recurrente, recuperación, clasificación, fundición, valorización, economía circular. No tono doméstico. Sustentabilidad sí; greenwashing no. No inventar toneladas, CO₂, energía, % reciclado, impacto ni certificaciones.
+
+No repetir los mismos párrafos entre rutas; cada material es específico. Autoridad por claridad, no superlativos tipo “líderes / mejores precios” sin evidencia.
+
+No inventar: ubicación, años, clientes, volúmenes, infraestructura, flota, plantas, permisos, cobertura, formas de pago, mínimos, tiempos de retiro. En desarrollo: placeholder explícito, preguntar, o dejar el componente listo. Nunca un supuesto en producción.
+
+## HTML, CTAs e imágenes
+
+Un `h1` por página; `h2` secciones; `h3` solo subsecciones reales. Headings no son estilo: el look va en styled-components.
+
+Semántica: `header`, `nav`, `main`, `section`, `article`, `footer`, headings, `a`, `button`, `label`. No `div` clickable.
+
+CTAs: `Cotizar material`, `Solicitar cotización`, `Hablar por WhatsApp`, `Contactar a MK Metales`. Evitar `Ver más` si hay texto más preciso.
+
+`alt` descriptivo, sin stuffing. Decorativas: `alt=""`.
+
+## Performance y SPA
+
+Core Web Vitals, imágenes optimizadas, lazy load cuando corresponda, dimensiones para evitar CLS, bundles razonables, menos JS decorativo, fuentes y mobile-first.
+
+React + Vite es client-side: metadata correcta, contenido crawleable sin depender de clicks, y arquitectura lista para prerender/SSG/SSR **si** el orgánico lo exige. No migrar de stack por defecto.

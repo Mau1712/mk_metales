@@ -1,0 +1,85 @@
+---
+description: Concepto, posicionamiento, lógica de negocio y criterios funcionales de MK Metales. Aplicar siempre antes de implementar copy, UX, rutas o features.
+alwaysApply: true
+---
+
+# MK Metales — negocio y producto
+
+MK Metales compra, recupera y recicla **scrap industrial metálico**. No es una empresa de chatarra doméstica.
+
+Foco: industrias, fábricas, metalúrgicas, talleres industriales, plantas, depósitos, contratistas, grandes empresas y organizaciones que generan rezagos metálicos. También, de forma potencial, organismos públicos o empresas estatales.
+
+Compra rezagos industriales y los comercializa **directamente con fundiciones**, para reincorporarlos a la cadena productiva.
+
+Tres conceptos a combinar, en este orden de percepción:
+
+1. Industria + confianza + capacidad comercial
+2. Servicio profesional B2B
+3. Reciclaje, sustentabilidad y economía circular (sin verse como ONG ni marca ecológica genérica)
+
+## Concepto central
+
+El scrap industrial no es basura. Es **materia prima secundaria** que se recupera, valoriza y reincorpora al circuito productivo:
+
+Industria genera rezago → MK Metales compra y recupera → clasificación / valorización → venta a fundiciones → el metal vuelve al circuito.
+
+Este relato debe ser consistente en todo el sitio.
+
+## Materiales actuales
+
+Bronce, aluminio duro, aluminio blando, plomo, baterías comunes, baterías de gel, zinc, acero inoxidable, viruta de aluminio, viruta de bronce, viruta de zinc, hierro chico.
+
+Compra **exclusivamente rezagos industriales**. No asumir electrodomésticos, residuos domésticos, particulares en pequeña escala, latas domiciliarias, vehículos u “cualquier chatarra”. No inventar materiales ni categorías.
+
+## Objetivo del sitio
+
+No es solo institucional. Objetivo comercial: **convertir empresas con scrap industrial en leads calificados**.
+
+Flujo: descubrimiento → entiende materiales y servicio → consulta precio de referencia → cotiza → contacta → lead.
+
+CTA principal: **Cotizar material**. CTA secundario: **Contactar por WhatsApp** (mensajes contextuales, nunca un “Hola” genérico).
+
+Antes de implementar, preguntar si ayuda a: explicar el negocio, generar confianza, aclarar qué se puede vender, obtener una cotización, generar un lead, o reforzar el posicionamiento industrial + circular. Si no, no es prioritario.
+
+## Rutas previstas
+
+- `/` Home comercial (hero → materiales → proceso → cotización rápida → soluciones empresas → economía circular → confianza → FAQ → CTA)
+- `/cotizador` Cotizador de scrap industrial
+- `/materiales` Listado y explicación (preparar SEO futuro `/materiales/bronce`, `/aluminio`, `/plomo`, `/zinc`, etc.)
+- `/soluciones-industriales` Servicios B2B / generadores recurrentes
+- `/sustentabilidad` Economía circular y propuesta ambiental
+- `/contacto` Canales, formulario y WhatsApp
+
+No crear rutas nuevas innecesarias.
+
+## Cotizador y precios
+
+El usuario indica material, tipo/calidad si aplica, peso aproximado y eventualmente ubicación u otros datos.
+
+Puede mostrar precio de referencia por kg, total estimado y fecha de actualización. El resultado es **siempre estimativo**. El precio internacional **no** es el precio de compra.
+
+Lógica conceptual: referencia internacional → unidades → moneda → coeficiente por material → coeficiente por calidad/presentación → ajustes comerciales/logísticos → estimado.
+
+El precio final depende de calidad, pureza, presentación, contaminación, volumen, ubicación, logística, condiciones comerciales y mercado. Nunca mostrar un precio web como compromiso contractual salvo definición explícita del negocio.
+
+La API externa de metales (LME u otros) es solo referencia. Baterías, aluminio duro/blando, virutas, acero inoxidable e hierro chico pueden requerir reglas internas. No asumir precio internacional directo para todos.
+
+**Nunca exponer API keys en el frontend.** Secretos solo en backend (Node/Express, serverless u endpoint privado).
+
+## Leads
+
+Tras cotizar: nombre, empresa, teléfono, email, ubicación, material, tipo, peso, comentarios y, si existe, fotos del lote.
+
+## Comunicación y SEO
+
+Lenguaje B2B: claro, profesional, técnico cuando haga falta, directo. Preferir: scrap industrial, rezago industrial, valorización, recuperación, fundición, grandes volúmenes, economía circular. “Chatarra” solo de forma estratégica para SEO, no como identidad.
+
+SEO con intención comercial real. No contenido artificial. **Nunca inventar** ciudades, cobertura, contratos públicos, certificaciones, permisos, clientes, premios, toneladas recicladas, CO₂, ni estadísticas. Si falta un dato, placeholder claro o dejar la estructura lista.
+
+## Diseño
+
+Identidad: **industrial premium + sustentable**. Verde (`#4CAF50`, `#8BC34A`) = acento de reciclaje/circularidad, no toda la UI. Oscuros y metálicos (`#1E232B`, `#2A3038`, `#8B929A`) = industria y solidez. Paleta canónica en `src/shared/theme/Theme.ts`.
+
+## Stack
+
+React, Vite, TypeScript, React Router DOM, styled-components. TypeScript estricto; evitar `any`. No sumar librerías si el stack actual alcanza.

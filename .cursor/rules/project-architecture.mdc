@@ -1,0 +1,116 @@
+---
+description: Arquitectura real de MK Metales (features, shared, aliases, styled-components, rutas). Respetar estos patrones; no inventar una estructura nueva.
+alwaysApply: true
+---
+
+# MK Metales — arquitectura
+
+Documenta la estructura **actual**. No rediseñar, no mover carpetas, no importar arquitecturas externas (Atomic Design, Clean Architecture, `src/components` global, CSS modules, Tailwind). El código nuevo debe parecer original de este repo.
+
+Antes de crear una carpeta, archivo o patrón: buscar si ya hay un lugar equivalente. No introducir abstracciones (hooks/, services/, context/, store/) hasta que el código real lo necesite y no encaje en lo existente.
+
+No refactorizar arquitectura salvo que la tarea lo pida explícitamente.
+
+## Mapa
+
+```text
+src/
+  main.tsx              # mount + StrictMode
+  App.tsx               # ThemeProvider, GlobalStyles, BrowserRouter, AppRouter
+  app/router/           # Routes, ScrollToTop, barrel index.ts
+  features/
+    home/               # página de una ruta
+    shell/              # layout persistente (header, footer, ShellLayout)
+  shared/
+    theme/Theme.ts
+    styles/GlobalStyles.tsx
+    types/styled.d.ts
+    utils/styles-utils.ts
+    ui/containers/      # GlobalContainer, SectionContainer
+    ui/overlays/        # OffCanvas, ImageLightbox
+  assets/icons/index.ts
+```
+
+Capas: `app` (composición de app), `features` (dominio de una pantalla/flujo), `shared` (reutilizable y agnóstico de negocio de una feature), `assets` (iconos y estáticos).
+
+## Features
+
+Cada feature: `src/features/<camelCase>/`.
+
+Patrón real (home, shell):
+
+```text
+features/<nombre>/
+  index.ts                          # API pública
+  data.ts                           # datos/tipos de esa feature (si aplica)
+  pages/<Name>Page.tsx
+  pages/<Name>Page.elements.ts
+  components/<camelCase>/<Name>.tsx
+  components/<camelCase>/<Name>.elements.ts
+```
+
+- **Página de ruta** → `pages/`, no suelta en la raíz de la feature.
+- **UI solo de esa feature** → `components/<camelCase>/`.
+- **Datos/nav de esa feature** → `data.ts` junto a la feature (como `features/shell/data.ts`), no un store global.
+- Nueva ruta prevista (`cotizador`, `materiales`, `soluciones-industriales`, `sustentabilidad`, `contacto`): **nueva feature** con el mismo molde. Registrar en `src/app/router/router.tsx` (hijo de `ShellLayout` salvo que el layout no aplique) y en `navItems` de shell si va al menú.
+
+`shell` **no** es shared: header, footer y layout son de producto. Ampliarlos ahí.
+
+## Shared vs feature
+
+`shared` solo si es genérico y reutilizable entre features (o claramente de infraestructura UI/tema):
+
+- theme, GlobalStyles, utils de estilo, containers, overlays, tipos de styled-components.
+
+**Feature** si nombra un dominio (home, cotizador, materiales) o el chrome del sitio (shell).
+
+No subir a `shared` un componente usado una sola vez “por si acaso”. Si dos features necesitan lo mismo, extraer entonces. Reutilizar `SectionContainer`, `GlobalContainer`, `OffCanvas`, `ImageLightbox` antes de duplicar.
+
+## Nombres
+
+- Carpetas de componente: **camelCase** (`siteHeader`, `imageLightbox`, `sectionContainer`).
+- Archivos de componente: **PascalCase** (`SiteHeader.tsx`).
+- Styled: `<Name>.elements.ts`; exports `*Element` (`HomePageElement`, `SiteHeaderElement`).
+- Props transitorias de styled-components: prefijo `$` (`$open`, `$bg`, `$fullWidth`).
+- Componentes y páginas: **named export**. `App` es el único default export del árbol React.
+- `import type` para tipos (`verbatimModuleSyntax`).
+
+## Imports
+
+Aliases (Vite + `tsconfig.app.json`): `@`, `@shared`, `@app`, `@features`, `@assets`.
+
+- Cruce de capas: alias (`@features/home`, `@shared/ui/containers/globalContainer/GlobalContainer`, `@app/router`).
+- Dentro de la misma feature o del mismo componente: relativo (`./HomePage.elements`, `../siteFooter/SiteFooter`, `../../data`).
+- Barrels de feature/app: reexportar con **extensión** (`from "./pages/HomePage.tsx"`). `main.tsx` importa `./App.tsx`.
+- Iconos vía `@assets/icons` (reexport de `react-icons/io5`), no `react-icons` suelto en features.
+- Paleta y tokens: `theme` de `@shared/theme/Theme` y `theme.color` / `theme.spacing()` / `theme.breakpoints` / etc. No hardcodear hex de marca ni CSS suelto. No hay `.css` de app: solo styled-components + `GlobalStyles`.
+
+## Estilos y theme
+
+- Estilos del componente: colocados en `.elements.ts`, no un `styles/` por feature.
+- Tokens en `Theme.ts`; ampliar `DefaultTheme` en `shared/types/styled.d.ts` si cambia la forma del theme (hoy se deriva de `typeof theme.*`).
+- Utils de estilo (`pxToRem`, `createColorScale`) en `shared/utils/styles-utils.ts`.
+- Media queries con `theme.breakpoints`. Espaciado con `theme.spacing(n)` (n × 8px).
+- `App.tsx` envuelve con `ThemeProvider` + `GlobalStyles`; no volver a montar providers de tema por página.
+
+## Types
+
+- Tipo de un componente: junto al componente o a sus `.elements.ts` (`OffCanvasSide`, `ImageLightboxItem`, `NavItem`).
+- Augment de styled-components: `shared/types/styled.d.ts`.
+- No carpeta `types/` global hasta que dejen de caber al lado del código que los usa.
+
+## Routing y app
+
+- Rutas solo en `src/app/router/router.tsx`. Catch-all: `Navigate` a `/`.
+- Layout: `ShellLayout` + `<Outlet />`. Scroll: `ScrollToTop` en `@app/router`.
+- `src/app/` es composición de aplicación (router hoy). SEO/i18n futuros irían bajo `app/` si son transversales, no dentro de una feature de página.
+
+## Cómo agregar algo
+
+1. ¿Es layout persistente? → `features/shell`.
+2. ¿Es una pantalla/flujo de negocio? → `features/<nombre>/` + ruta + barrel.
+3. ¿Es UI/tema/util sin dominio? → `shared/` en `ui/containers`, `ui/overlays`, `utils`, `theme` o `styles`.
+4. ¿Ya existe un overlay/container/token? → usarlo.
+5. Exportar por `index.ts` de la feature lo que otras capas deban importar.
+
+Stack fijo: React, Vite, TypeScript, React Router DOM, styled-components. TypeScript estricto (`noUnusedLocals`, sin `any` injustificado). Hook `.cursor/hooks/ts-review.mjs` exige `tsc -b` limpio. No sumar librerías si el stack alcanza.
