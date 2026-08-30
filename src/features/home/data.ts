@@ -34,8 +34,21 @@ export const materialsCopy = {
   eyebrow: "Materiales",
   title: "Compramos y valorizamos scrap industrial metálico",
   intro:
-    "Trabajamos con rezagos provenientes de procesos industriales, evaluando cada material según su tipo, calidad, presentación y volumen.",
+    "Consultá referencias internacionales actualizadas por kilogramo y accedé al cotizador para estimar tu lote.",
   cardCaption: "Rezago industrial",
+  updatedLabel: "Referencias actualizadas",
+  approximateNote:
+    "Algunos materiales utilizan el metal principal asociado como referencia aproximada de mercado.",
+  disclaimer:
+    "Los valores mostrados son referencias internacionales orientativas y no representan una oferta de compra de MK Metales.",
+  unavailablePrice: "Referencia no disponible",
+  customTitle: "Evaluación personalizada",
+  customDescription: "Sin referencia automática disponible",
+  cardCta: "Cotizar material",
+  customCta: "Consultar",
+  perKg: " / kg",
+  perKgApprox: " / kg aprox.",
+  carouselListLabel: "Desplazá horizontalmente para ver más materiales",
   ctaTitle: "¿Generás scrap industrial de forma recurrente?",
   ctaDescription:
     "Podemos evaluar el material, volumen y condiciones de tu operación.",

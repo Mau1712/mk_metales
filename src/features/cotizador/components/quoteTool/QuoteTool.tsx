@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import {
   isQuoteMaterialId,
@@ -18,6 +18,7 @@ import {
   type QuoteResult,
   type QuoteStatus,
 } from "../../data";
+import { getQuote } from "../../pricing.ts";
 import {
   QuoteToolElement,
   QuoteToolFormPanelElement,
@@ -74,10 +75,6 @@ const scrollToSummaryOnCompact = () => {
   });
 };
 
-/**
- * Estados de motor previstos: loading | quoted | unavailable | error.
- * No se invoca getQuote hasta que exista un proveedor real.
- */
 type QuoteEngine = {
   status: Extract<QuoteStatus, "loading" | "quoted" | "unavailable" | "error">;
   result: QuoteResult | null;
@@ -99,6 +96,8 @@ export const QuoteTool = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [values, setValues] = useState(() => createInitialValues(search, state));
   const [errors, setErrors] = useState<QuoteFormErrors>({});
+  const [engine, setEngine] = useState<QuoteEngine>(null);
+  const quoteSeq = useRef(0);
 
   const materialFieldId = useId();
   const weightFieldId = useId();
@@ -110,9 +109,27 @@ export const QuoteTool = () => {
   const submitHintId = useId();
 
   const request = toQuoteRequest(values);
-  const status = resolveStatus(request, null);
+  const status = resolveStatus(request, engine);
   const presentations = presentationsForMaterial(values.materialId);
   const loading = status === "loading";
+
+  const runQuote = async (quoteRequest: QuoteRequest) => {
+    const seq = ++quoteSeq.current;
+    setEngine({ status: "loading", result: null });
+
+    const outcome = await getQuote(quoteRequest);
+
+    if (seq !== quoteSeq.current) {
+      return;
+    }
+
+    if (outcome.ok) {
+      setEngine({ status: "quoted", result: outcome.result });
+      return;
+    }
+
+    setEngine({ status: outcome.status, result: null });
+  };
 
   const writeQuery = (materialId: string, weight: string) => {
     const next = buildQuoteQuery(materialId, weight);
@@ -154,6 +171,7 @@ export const QuoteTool = () => {
     if (key === "materialId") {
       clearFieldError("material");
       writeQuery(value, values.weight);
+      setEngine(null);
     }
   };
 
@@ -165,6 +183,7 @@ export const QuoteTool = () => {
     setValues((current) => ({ ...current, weight: value }));
     clearFieldError("weight");
     writeQuery(values.materialId, value);
+    setEngine(null);
   };
 
   const onSubmit = () => {
@@ -183,10 +202,27 @@ export const QuoteTool = () => {
 
     writeQuery(values.materialId, values.weight);
     scrollToSummaryOnCompact();
+
+    const quoteRequest = toQuoteRequest(values);
+
+    if (!quoteRequest) {
+      return;
+    }
+
+    void runQuote(quoteRequest);
   };
 
   const onRetry = () => {
-    void request;
+    if (!request) {
+      return;
+    }
+
+    void runQuote(request);
+  };
+
+  const onReset = () => {
+    quoteSeq.current += 1;
+    setEngine(null);
   };
 
   return (
@@ -233,8 +269,9 @@ export const QuoteTool = () => {
         <QuoteSummary
           status={status}
           request={request}
-          result={null}
+          result={engine?.result ?? null}
           onRetry={onRetry}
+          onReset={onReset}
         />
       </QuoteToolInnerElement>
     </QuoteToolElement>

@@ -19,5 +19,11 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "seo-static.ts", "src/app/seo/indexableRoutes.ts"]
+  "include": [
+    "vite.config.ts",
+    "seo-static.ts",
+    "src/app/seo/indexableRoutes.ts",
+    "src/app/market/types.ts",
+    "api/**/*.ts"
+  ]
 }

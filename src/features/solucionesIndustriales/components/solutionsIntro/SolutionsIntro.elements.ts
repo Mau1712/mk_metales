@@ -10,17 +10,15 @@ export const SolutionsIntroElement = styled.section`
 `;
 
 export const SolutionsIntroInnerElement = styled(SectionContainer)`
-  display: grid;
-  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
-  column-gap: ${({ theme }) => theme.spacing(8)};
-  row-gap: ${({ theme }) => theme.spacing(3)};
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.spacing(3)};
   width: 100%;
   padding: ${({ theme }) =>
     `${theme.spacing(8)} ${theme.spacing(5)} ${theme.spacing(8)}`};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.smallDesktop}) {
-    grid-template-columns: minmax(0, 1fr);
     padding: ${({ theme }) =>
       `${theme.spacing(6)} ${theme.spacing(3)} ${theme.spacing(6)}`};
   }
@@ -36,18 +34,22 @@ export const SolutionsIntroHeadingElement = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: ${({ theme }) => theme.spacing(2)};
+  max-width: ${pxToRem(720)};
   min-width: 0;
 `;
 
 export const SolutionsIntroCopyElement = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.spacing(2)};
+  max-width: ${pxToRem(720)};
   min-width: 0;
 `;
 
 export const SolutionsIntroEyebrowElement = styled.p`
   margin: 0;
+  text-align: left;
   color: ${({ theme }) => theme.color.brand.primary};
   font-size: ${({ theme }) => theme.typography.fontSizes.small};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semiBold};
@@ -58,6 +60,7 @@ export const SolutionsIntroEyebrowElement = styled.p`
 
 export const SolutionsIntroTitleElement = styled.h2`
   margin: 0;
+  text-align: left;
   color: ${({ theme }) => theme.color.text.primary};
   font-size: clamp(
     ${({ theme }) => theme.typography.fontSizes.xxLarge},
@@ -73,6 +76,7 @@ export const SolutionsIntroTitleElement = styled.h2`
 
 export const SolutionsIntroLeadElement = styled.p`
   margin: 0;
+  text-align: left;
   color: ${({ theme }) => theme.color.text.secondary};
   font-size: ${({ theme }) => theme.typography.fontSizes.large};
   line-height: 1.55;
@@ -84,6 +88,7 @@ export const SolutionsIntroLeadElement = styled.p`
 
 export const SolutionsIntroDetailElement = styled.p`
   margin: 0;
+  text-align: left;
   color: ${({ theme }) => theme.color.text.secondary};
   font-size: ${({ theme }) => theme.typography.fontSizes.large};
   line-height: 1.55;
@@ -94,11 +99,11 @@ export const SolutionsIntroDetailElement = styled.p`
 `;
 
 export const SolutionsIntroStatementElement = styled.p`
-  grid-column: 1 / -1;
   max-width: ${pxToRem(640)};
   margin: ${({ theme }) => `${theme.spacing(2)} 0 0`};
   padding-left: ${({ theme }) => theme.spacing(2)};
   border-left: 2px solid ${({ theme }) => theme.color.brand.primary};
+  text-align: left;
   color: ${({ theme }) => theme.color.text.primary};
   font-size: ${({ theme }) => theme.typography.fontSizes.xLarge};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semiBold};

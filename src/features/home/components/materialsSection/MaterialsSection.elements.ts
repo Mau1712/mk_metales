@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { SectionContainer } from "@shared/ui/containers/sectionContainer/SectionContainer";
 import { pxToRem } from "@shared/utils/styles-utils";
 
@@ -68,7 +68,7 @@ export const MaterialsHeaderElement = styled.header`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: ${pxToRem(640)};
+  max-width: ${pxToRem(720)};
 `;
 
 export const MaterialsEyebrowElement = styled.p`
@@ -120,6 +120,30 @@ export const MaterialsIntroElement = styled.p`
   }
 `;
 
+export const MaterialsMetaElement = styled.p`
+  margin: ${({ theme }) => `${theme.spacing(1.5)} 0 0`};
+  color: ${({ theme }) => theme.color.steel};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: 1.45;
+`;
+
+export const MaterialsNoteElement = styled.p`
+  max-width: 62ch;
+  margin: ${({ theme }) => `${theme.spacing(1)} 0 0`};
+  color: ${({ theme }) => theme.color.text.secondary};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  line-height: 1.5;
+`;
+
+export const MaterialsDisclaimerElement = styled.p`
+  max-width: 62ch;
+  margin: ${({ theme }) => `${theme.spacing(1)} 0 0`};
+  color: ${({ theme }) => theme.color.steel};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  line-height: 1.5;
+`;
+
 export const MaterialsGroupsElement = styled.div`
   display: flex;
   flex-direction: column;
@@ -164,7 +188,7 @@ export const MaterialsGroupTitleElement = styled.h3`
 
 export const MaterialsListElement = styled.ul`
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: ${({ theme }) => theme.spacing(1.5)};
   width: 100%;
   margin: 0;
@@ -172,22 +196,49 @@ export const MaterialsListElement = styled.ul`
   list-style: none;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.smallDesktop}) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: ${({ theme }) => theme.spacing(1)};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: ${({ theme }) => theme.spacing(1)};
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid ${({ theme }) => theme.color.brand.primary};
+      outline-offset: 3px;
+    }
   }
 `;
 
 export const MaterialCardElement = styled.li`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.spacing(1.5)};
   min-width: 0;
-  min-height: ${({ theme }) => theme.spacing(8)};
-  padding: ${({ theme }) => `${theme.spacing(1.5)} ${theme.spacing(2)}`};
+  padding: ${({ theme }) => theme.spacing(2)};
   background: ${({ theme }) => theme.color.white};
   border: 1px solid
     color-mix(in srgb, ${({ theme }) => theme.color.steel} 22%, transparent);
@@ -221,10 +272,23 @@ export const MaterialCardElement = styled.li`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    min-height: ${({ theme }) => theme.spacing(7.5)};
-    padding: ${({ theme }) => `${theme.spacing(1.25)} ${theme.spacing(1.5)}`};
+    padding: ${({ theme }) => `${theme.spacing(1.75)} ${theme.spacing(1.75)}`};
     gap: ${({ theme }) => theme.spacing(1.25)};
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex: 0 0 87%;
+    width: 87%;
+    min-width: 87%;
+    scroll-snap-align: start;
+  }
+`;
+
+export const MaterialCardHeaderElement = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const MaterialCardIconElement = styled.span`
@@ -260,15 +324,17 @@ export const MaterialCardIconElement = styled.span`
   }
 `;
 
-export const MaterialCardCopyElement = styled.span`
+export const MaterialCardCopyElement = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
-  gap: ${pxToRem(2)};
+  width: 100%;
+  gap: ${({ theme }) => theme.spacing(0.75)};
 `;
 
-export const MaterialCardNameElement = styled.span`
+export const MaterialCardNameElement = styled.p`
+  margin: 0;
   color: ${({ theme }) => theme.color.text.primary};
   font-size: ${({ theme }) => theme.typography.fontSizes.normal};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -281,11 +347,134 @@ export const MaterialCardNameElement = styled.span`
   }
 `;
 
-export const MaterialCardCaptionElement = styled.span`
+export const MaterialCardPricesElement = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${pxToRem(2)};
+  width: 100%;
+`;
+
+export const MaterialCardPriceUsdElement = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.color.text.primary};
+  font-size: ${({ theme }) => theme.typography.fontSizes.large};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+`;
+
+export const MaterialCardPriceArsElement = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.color.steel};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: 1.35;
+`;
+
+export const MaterialCardMetaElement = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.color.text.secondary};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  line-height: 1.35;
+`;
+
+export const MaterialCardCaptionElement = styled.p`
+  margin: 0;
   color: ${({ theme }) => theme.color.text.secondary};
   font-size: ${({ theme }) => theme.typography.fontSizes.small};
   font-weight: ${({ theme }) => theme.typography.fontWeight.normal};
   line-height: 1.3;
+`;
+
+const pulse = keyframes`
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+`;
+
+export const MaterialCardSkeletonElement = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing(0.75)};
+  width: 100%;
+  margin-top: ${({ theme }) => theme.spacing(0.25)};
+
+  span {
+    display: block;
+    height: ${pxToRem(10)};
+    border-radius: ${({ theme }) => theme.radii.pill};
+    background: color-mix(
+      in srgb,
+      ${({ theme }) => theme.color.steel} 22%,
+      transparent
+    );
+    animation: ${pulse} 1.2s ease-in-out infinite;
+  }
+
+  span:nth-child(1) {
+    width: 68%;
+    height: ${pxToRem(16)};
+  }
+
+  span:nth-child(2) {
+    width: 52%;
+  }
+
+  span:nth-child(3) {
+    width: 74%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    span {
+      animation: none;
+    }
+  }
+`;
+
+export const MaterialCardCtaElement = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(0.75)};
+  min-height: ${pxToRem(44)};
+  margin-top: auto;
+  color: ${({ theme }) => theme.color.brand.primary};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semiBold};
+  line-height: 1.2;
+
+  svg {
+    width: ${pxToRem(16)};
+    height: ${pxToRem(16)};
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.color.button.primary.hover};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.color.brand.primary};
+    outline-offset: 3px;
+  }
+`;
+
+export const MaterialsCarouselStatusElement = styled.p`
+  display: none;
+  width: 100%;
+  margin: ${({ theme }) => `${theme.spacing(1.25)} 0 0`};
+  color: ${({ theme }) => theme.color.steel};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  line-height: 1.3;
+  text-align: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: block;
+  }
 `;
 
 export const MaterialsCtaElement = styled.div`

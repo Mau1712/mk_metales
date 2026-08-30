@@ -13,6 +13,8 @@ import {
 } from "../../data";
 import {
   QuoteSummaryActionsElement,
+  QuoteSummaryArsNoteElement,
+  QuoteSummaryArsTotalElement,
   QuoteSummaryCtaElement,
   QuoteSummaryDescriptionElement,
   QuoteSummaryDisclaimerElement,
@@ -35,12 +37,26 @@ type QuoteSummaryProps = {
   request: QuoteRequest | null;
   result: QuoteResult | null;
   onRetry: () => void;
+  onReset: () => void;
 };
 
 const formatWeight = (weightKg: number) => `${weightKg} kg`;
 
 const formatMoney = (value: number, currency: string) => {
-  return `${currency} ${value}`;
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency,
+    currencyDisplay: "code",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
+const formatArs = (value: number) => {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+  }).format(value);
 };
 
 const formatTimestamp = (iso: string) => {
@@ -61,6 +77,7 @@ export const QuoteSummary = ({
   request,
   result,
   onRetry,
+  onReset,
 }: QuoteSummaryProps) => {
   const materialName = request
     ? getMaterialName(request.materialId)
@@ -165,17 +182,18 @@ export const QuoteSummary = ({
                 </dd>
               </QuoteSummaryPriceElement>
               <QuoteSummaryPriceElement $featured>
-                <dt>{quoteSummaryCopy.quotedEstimateLabel}</dt>
-                <dd>
-                  {formatMoney(result.estimatedPricePerKg, result.currency)}
-                  {quoteSummaryCopy.perKg}
-                </dd>
-              </QuoteSummaryPriceElement>
-              <QuoteSummaryPriceElement $featured>
                 <dt>{quoteSummaryCopy.quotedTotalLabel}</dt>
                 <dd>
-                  {formatMoney(result.estimatedTotal, result.currency)}
+                  <span>
+                    {formatMoney(result.estimatedTotal, result.currency)}
+                  </span>
+                  <QuoteSummaryArsTotalElement>
+                    {formatArs(result.estimatedTotalArs)}
+                  </QuoteSummaryArsTotalElement>
                 </dd>
+                <QuoteSummaryArsNoteElement>
+                  {quoteSummaryCopy.quotedArsNote}
+                </QuoteSummaryArsNoteElement>
               </QuoteSummaryPriceElement>
             </QuoteSummaryPricesElement>
             <QuoteSummaryMetaElement>
@@ -183,16 +201,15 @@ export const QuoteSummary = ({
                 {quoteSummaryCopy.quotedUpdatedLabel}:{" "}
                 {formatTimestamp(result.referenceTimestamp)}
               </p>
-              {result.referenceSource ? (
-                <p>
-                  {quoteSummaryCopy.quotedSourceLabel}: {result.referenceSource}
-                </p>
-              ) : null}
+              <p>{quoteSummaryCopy.quotedSource}</p>
             </QuoteSummaryMetaElement>
             <QuoteSummaryActionsElement>
               <QuoteSummaryCtaElement to={contactHref} state={contactState}>
                 {quoteSummaryCopy.readyCta}
               </QuoteSummaryCtaElement>
+              <QuoteSummaryRetryElement type="button" onClick={onReset}>
+                {quoteSummaryCopy.quotedReset}
+              </QuoteSummaryRetryElement>
             </QuoteSummaryActionsElement>
           </QuoteSummaryStatusElement>
         ) : null}

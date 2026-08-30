@@ -61,30 +61,32 @@ export const quoteSummaryCopy = {
   readyTitle: "Listo para cotizar",
   readyDescription: "Ya tenemos la información básica del lote.",
   readyNote:
-    "La conexión con las referencias de mercado será incorporada en la siguiente etapa.",
+    "Presioná Cotizar para obtener una estimación de referencia.",
   readyCta: "Solicitar evaluación comercial",
   loadingTitle: "Calculando referencia",
   loadingDescription: "Estamos preparando la estimación del lote.",
-  quotedMarketLabel: "Referencia de mercado",
-  quotedEstimateLabel: "Estimación MK Metales",
+  quotedMarketLabel: "Referencia internacional",
   quotedTotalLabel: "Valor estimado del lote",
+  quotedArsNote:
+    "Equivalente aproximado en pesos argentinos según el tipo de cambio de referencia disponible.",
   quotedUpdatedLabel: "Referencia actualizada",
-  quotedSourceLabel: "Fuente",
-  unavailableTitle: "Este material requiere evaluación personalizada",
+  quotedSource: "Referencia internacional de mercado",
+  quotedReset: "Nueva cotización",
+  unavailableTitle: "Este material requiere una evaluación personalizada",
   unavailableDescription:
-    "Algunas categorías necesitan información adicional antes de determinar una referencia.",
+    "Actualmente no contamos con una referencia automática adecuada para este material.",
   unavailableCta: "Solicitar evaluación",
-  errorTitle: "No pudimos generar la referencia.",
+  errorTitle: "No pudimos obtener la referencia de mercado en este momento.",
   errorDescription: "Intentá nuevamente en unos instantes.",
-  errorRetry: "Reintentar",
-  perKg: "/ kg",
+  errorRetry: "Intentar nuevamente",
+  perKg: " / kg",
 } as const;
 
 export const quoteDisclaimerCopy = {
   estimates:
-    "Las cotizaciones publicadas por MK Metales son estimaciones orientativas. El valor final puede variar según calidad, composición, presentación, volumen, ubicación, logística y condiciones de mercado.",
+    "Este valor es una estimación orientativa basada en referencias internacionales de mercado. La cotización comercial final puede variar según el tipo, calidad, composición, presentación, volumen y condiciones reales del material.",
   contract:
-    "Una estimación web no constituye una oferta contractual de compra.",
+    "La estimación mostrada no constituye una oferta contractual de compra.",
 } as const;
 
 export const quoteHowCopy = {
@@ -129,7 +131,7 @@ export const quoteFaqItems = [
     id: "source",
     question: "¿Qué referencia utilizan?",
     answer:
-      "El sistema estará preparado para utilizar referencias externas de mercado junto con criterios internos de valorización.",
+      "Utilizamos referencias internacionales de mercado como punto de partida. El valor comercial final se define en la evaluación.",
   },
 ] as const;
 
@@ -208,6 +210,7 @@ export type QuoteResult = {
   referencePricePerKg: number;
   estimatedPricePerKg: number;
   estimatedTotal: number;
+  estimatedTotalArs: number;
   currency: string;
   referenceSource?: string;
   referenceTimestamp: string;

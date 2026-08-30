@@ -1,4 +1,8 @@
-import type { QuoteMaterialId } from "@features/home/data.ts";
+import type { BenchmarkMetalId, MetalBenchmarks } from "@app/market";
+import {
+  getMaterialBenchmarkId,
+  marketDataService,
+} from "@app/market";
 import type { QuoteRequest, QuoteResult } from "./data";
 
 export type QuoteOutcome =
@@ -6,28 +10,59 @@ export type QuoteOutcome =
   | { ok: false; status: "unavailable" }
   | { ok: false; status: "error"; code: "unavailable" | "network" };
 
-/**
- * Futuro: material → instrumento de mercado → coeficiente interno.
- * Un material del sitio no equivale a un símbolo de proveedor.
- * No se asignan símbolos ni coeficientes hasta definir la integración real.
- */
-export type MaterialBenchmarkRule = {
-  materialId: QuoteMaterialId;
-  benchmarkId?: string;
+export { getMaterialBenchmarkId, materialBenchmarkMap } from "@app/market";
+
+const toQuoteResult = (
+  request: QuoteRequest,
+  benchmarks: MetalBenchmarks,
+  benchmarkId: BenchmarkMetalId,
+): QuoteResult => {
+  const referencePricePerKg = benchmarks.lme[benchmarkId];
+  const estimatedTotalUsd = referencePricePerKg * request.weightKg;
+  const estimatedTotalArs =
+    estimatedTotalUsd * benchmarks.exchangeRates.usdToArs;
+
+  return {
+    materialId: request.materialId,
+    weightKg: request.weightKg,
+    referencePricePerKg,
+    estimatedPricePerKg: referencePricePerKg,
+    estimatedTotal: estimatedTotalUsd,
+    estimatedTotalArs,
+    currency: benchmarks.currency,
+    referenceTimestamp: benchmarks.updatedAt,
+    status: "estimated",
+  };
 };
 
-export const materialBenchmarkRules: Partial<
-  Record<QuoteMaterialId, MaterialBenchmarkRule>
-> = {};
-
-/**
- * Cadena prevista, aún no implementada:
- * referencia internacional → unidad → moneda → coeficiente de material →
- * coeficiente de presentación/calidad → ajustes comerciales → estimación MK.
- */
 export const getQuote = async (
   request: QuoteRequest,
 ): Promise<QuoteOutcome> => {
-  void request;
-  return { ok: false, status: "unavailable" };
+  const benchmarkId = getMaterialBenchmarkId(request.materialId);
+
+  if (benchmarkId === null) {
+    return { ok: false, status: "unavailable" };
+  }
+
+  try {
+    const benchmarks = await marketDataService.getBenchmarks();
+    const referencePricePerKg = benchmarks.lme[benchmarkId];
+    const usdToArs = benchmarks.exchangeRates.usdToArs;
+
+    if (
+      !Number.isFinite(referencePricePerKg) ||
+      !Number.isFinite(usdToArs) ||
+      usdToArs <= 0
+    ) {
+      return { ok: false, status: "error", code: "network" };
+    }
+
+    return {
+      ok: true,
+      status: "quoted",
+      result: toQuoteResult(request, benchmarks, benchmarkId),
+    };
+  } catch {
+    return { ok: false, status: "error", code: "network" };
+  }
 };

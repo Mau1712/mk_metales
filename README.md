@@ -97,6 +97,38 @@ Google suele ejecutar JavaScript. Facebook, LinkedIn, WhatsApp y algunos crawler
 
 No se agregó prerender ni SSR para no cambiar el hosting. Cuando el orgánico o los shares lo exijan, la opción mínima compatible con Vite es un prerender estático de las 6 rutas públicas (por ejemplo `vite-plugin-prerender` o un paso de build que emita HTML por ruta), sin migrar a Next.js.
 
+## Referencias de mercado
+
+El cotizador todavía no calcula precios. La integración actual solo obtiene benchmarks USD/kg.
+
+Flujo:
+
+```text
+React
+  → marketDataService.getBenchmarks()
+  → GET /api/metal-prices
+  → CDN (Vercel)
+  → MetalsDev adapter
+  → Metals.Dev /v1/latest
+```
+
+- Contrato interno: `MetalBenchmarks` en `src/app/market/types.ts`.
+- Cliente frontend: `src/app/market/marketDataService.ts`. Nunca llama a `api.metals.dev`.
+- Function: `api/metal-prices.ts` (Vercel). En local, Vite monta la misma ruta.
+- Adapter: `api/market/metalsDevAdapter.ts`. El resto de la app no conoce el JSON del proveedor.
+
+Caché (solo respuestas 200):
+
+- Navegador: `Cache-Control: public, max-age=0, must-revalidate`
+- CDN: `s-maxage=43200` (12 h) + `stale-while-revalidate=86400` (24 h)
+- Headers: `CDN-Cache-Control` y `Vercel-CDN-Cache-Control`
+
+Usuario A puede disparar Metals.Dev. B y C deben resolver desde el CDN mientras la respuesta sea fresh o stale-while-revalidate. Los errores van con `no-store` para no cachear fallos 12 horas.
+
+Timeout hacia Metals.Dev: 8 segundos.
+
+Variable privada: `METALS_DEV_API_KEY` (`.env` local, no versionado). En Vercel, la misma variable como Environment Variable. No crear `VITE_METALS_DEV_API_KEY`.
+
 ### Datos reales que faltan
 
 - Dominio productivo (`VITE_SITE_URL`)

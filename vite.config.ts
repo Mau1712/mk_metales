@@ -3,6 +3,7 @@ import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import { fileURLToPath, URL } from "node:url";
 import { writeSeoStaticFiles } from "./seo-static.ts";
+import { createMetalPricesDevPlugin } from "./api/market/vitePlugin.ts";
 
 const resolveSrc = (segment = "") =>
   fileURLToPath(new URL(`./src${segment}`, import.meta.url));
@@ -55,7 +56,12 @@ const createSeoPlugin = (options: {
 };
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "VITE_");
+  const env = loadEnv(mode, process.cwd(), "");
+
+  if (env.METALS_DEV_API_KEY && !process.env.METALS_DEV_API_KEY) {
+    process.env.METALS_DEV_API_KEY = env.METALS_DEV_API_KEY;
+  }
+
   const rawSiteUrl = env.VITE_SITE_URL?.trim();
   const siteUrl = rawSiteUrl ? trimTrailingSlash(rawSiteUrl) : null;
   const indexable =
@@ -67,6 +73,7 @@ export default defineConfig(({ mode }) => {
       react(),
       babel({ presets: [reactCompilerPreset()] }),
       createSeoPlugin({ siteUrl, indexable }),
+      createMetalPricesDevPlugin(),
     ],
     resolve: {
       dedupe: ["react", "react-dom", "styled-components"],

@@ -219,6 +219,10 @@ export const QuoteSummaryPriceElement = styled.div<{ $featured?: boolean }>`
   }
 
   dd {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.spacing(0.5)};
     margin: ${({ theme }) => `${theme.spacing(0.5)} 0 0`};
     color: ${({ $featured, theme }) =>
       $featured ? theme.color.brand.primary : theme.color.text.light};
@@ -230,6 +234,25 @@ export const QuoteSummaryPriceElement = styled.div<{ $featured?: boolean }>`
     letter-spacing: -0.02em;
     line-height: 1.2;
   }
+`;
+
+export const QuoteSummaryArsTotalElement = styled.span`
+  color: ${({ theme }) => theme.color.text.light};
+  font-size: ${({ theme }) => theme.typography.fontSizes.large};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semiBold};
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  opacity: 0.82;
+`;
+
+export const QuoteSummaryArsNoteElement = styled.p`
+  margin: ${({ theme }) => `${theme.spacing(0.75)} 0 0`};
+  color: ${({ theme }) => theme.color.steel};
+  font-size: ${({ theme }) => theme.typography.fontSizes.small};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.normal};
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
 `;
 
 export const QuoteSummaryMetaElement = styled.div`
@@ -249,6 +272,7 @@ export const QuoteSummaryActionsElement = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: ${({ theme }) => theme.spacing(1)};
   width: 100%;
   margin-top: ${({ theme }) => theme.spacing(0.5)};
 `;
