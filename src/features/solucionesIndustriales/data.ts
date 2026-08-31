@@ -41,6 +41,11 @@ export const solutionsIntroCopy = {
     "Cada operación industrial es diferente. La solución también debe serlo.",
 } as const;
 
+export const solutionsBannerCopy = {
+  imageAlt:
+    "Rezagos metálicos industriales junto a la marca MK Metales y el lema recuperamos hoy, construimos mañana",
+} as const;
+
 export const solutionsOperationsCopy = {
   title: "Tipos de operación",
 } as const;

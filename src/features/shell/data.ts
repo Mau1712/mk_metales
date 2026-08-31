@@ -50,11 +50,17 @@ export interface CompanyContact {
 }
 
 export const companyContact: CompanyContact = {
-  whatsappUrl: null,
+  whatsappUrl: "https://wa.me/5491124783732",
   phone: null,
   email: null,
   location: null,
 };
+
+export const whatsAppFloatCopy = {
+  label: "Hablar por WhatsApp",
+  message:
+    "Hola, quiero consultar por una operación de scrap industrial.",
+} as const;
 
 export const footerSocialLinks: ReadonlyArray<{
   label: string;

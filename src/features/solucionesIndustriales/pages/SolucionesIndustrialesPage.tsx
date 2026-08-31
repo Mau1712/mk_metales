@@ -1,4 +1,5 @@
 import { useDocumentMeta } from "@app/seo";
+import { SolutionsBanner } from "../components/solutionsBanner/SolutionsBanner";
 import { SolutionsCircular } from "../components/solutionsCircular/SolutionsCircular";
 import { SolutionsClosingCta } from "../components/solutionsClosingCta/SolutionsClosingCta";
 import { SolutionsFlow } from "../components/solutionsFlow/SolutionsFlow";
@@ -20,6 +21,7 @@ export const SolucionesIndustrialesPage = () => {
     <SolucionesIndustrialesPageElement>
       <SolutionsHero />
       <SolutionsIntro />
+      <SolutionsBanner />
       <SolutionsOperations />
       <SolutionsSectors />
       <SolutionsMaterialsNote />

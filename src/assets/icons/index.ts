@@ -1,4 +1,4 @@
-import { FaDollarSign, FaHandshake, FaRecycle } from "react-icons/fa6";
+import { FaDollarSign, FaHandshake, FaRecycle, FaWhatsapp } from "react-icons/fa6";
 import {
   IoArrowForward,
   IoBatteryChargingOutline,
@@ -24,6 +24,7 @@ export const ChevronForwardIcon = IoChevronForward;
 export const ValueBenefitIcon = FaDollarSign;
 export const HandshakeBenefitIcon = FaHandshake;
 export const RecycleBenefitIcon = FaRecycle;
+export const WhatsAppIcon = FaWhatsapp;
 
 export const LayersIcon = IoLayersOutline;
 export const CubeIcon = IoCubeOutline;
