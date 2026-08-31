@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom";
 import { ScrollToTop } from "@app/router/ScrollToTop";
 import { GlobalContainer } from "@shared/ui/containers/globalContainer/GlobalContainer";
+import { RouteTransition } from "../routeTransition/RouteTransition";
 import { SiteFooter } from "../siteFooter/SiteFooter";
 import { SiteHeader } from "../siteHeader/SiteHeader";
 import { WhatsAppFloat } from "../whatsAppFloat/WhatsAppFloat";
@@ -16,7 +16,7 @@ export const ShellLayout = () => {
       <SiteHeader />
       <ShellContentElement>
         <GlobalContainer fullWidth>
-          <Outlet />
+          <RouteTransition />
         </GlobalContainer>
       </ShellContentElement>
       <SiteFooter />
