@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/materiales", "destination": "/materiales/index.html" },
+    { "source": "/soluciones-industriales", "destination": "/soluciones-industriales/index.html" },
+    { "source": "/sustentabilidad", "destination": "/sustentabilidad/index.html" },
+    { "source": "/contacto", "destination": "/contacto/index.html" },
+    { "source": "/cotizador", "destination": "/cotizador/index.html" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}

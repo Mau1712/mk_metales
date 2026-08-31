@@ -1,8 +1,11 @@
-import { defineConfig, loadEnv, type Plugin } from "vite";
+import { existsSync } from "node:fs";
+import { extname, resolve as resolvePath } from "node:path";
+import { fileURLToPath, URL } from "node:url";
+import { defineConfig, loadEnv, type Connect, type Plugin, type PreviewServer } from "vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
-import { fileURLToPath, URL } from "node:url";
 import { writeSeoStaticFiles } from "./seo-static.ts";
+import { prerenderPublicRoutes } from "./prerender.ts";
 import { createMetalPricesDevPlugin } from "./api/market/vitePlugin.ts";
 
 const resolveSrc = (segment = "") =>
@@ -10,16 +13,46 @@ const resolveSrc = (segment = "") =>
 
 const trimTrailingSlash = (value: string) => value.replace(/\/+$/, "");
 
+const rewriteToPrerenderedIndex = (rootDir: string) => {
+  return (
+    request: Connect.IncomingMessage,
+    _response: unknown,
+    next: Connect.NextFunction,
+  ) => {
+    const raw = request.url ?? "/";
+    const [pathname, search = ""] = raw.split("?");
+
+    if (!pathname || pathname === "/" || extname(pathname)) {
+      next();
+      return;
+    }
+
+    const normalized = pathname.replace(/\/+$/, "");
+    const filePath = resolvePath(rootDir, normalized.slice(1), "index.html");
+
+    if (existsSync(filePath)) {
+      request.url = `${normalized}/index.html${search ? `?${search}` : ""}`;
+    }
+
+    next();
+  };
+};
+
 const createSeoPlugin = (options: {
   siteUrl: string | null;
   indexable: boolean;
 }): Plugin => {
   let outDir = "dist";
+  let isSsrBuild = false;
 
   return {
     name: "mk-metales-seo-static",
     configResolved(config) {
       outDir = config.build.outDir;
+      isSsrBuild = Boolean(config.build.ssr);
+    },
+    configurePreviewServer(server: PreviewServer) {
+      server.middlewares.use(rewriteToPrerenderedIndex(resolvePath(outDir)));
     },
     transformIndexHtml(html) {
       const robots = options.indexable ? "index, follow" : "noindex, nofollow";
@@ -49,8 +82,13 @@ const createSeoPlugin = (options: {
 
       return next;
     },
-    closeBundle() {
+    async closeBundle() {
+      if (isSsrBuild) {
+        return;
+      }
+
       writeSeoStaticFiles(outDir, options);
+      await prerenderPublicRoutes(outDir);
     },
   };
 };

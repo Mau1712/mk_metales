@@ -61,7 +61,7 @@ export const OffCanvas = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open, onClose]);
 
-  if (typeof document === "undefined") {
+  if (!open || typeof document === "undefined") {
     return null;
   }
 

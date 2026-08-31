@@ -22,6 +22,7 @@
   "include": [
     "vite.config.ts",
     "seo-static.ts",
+    "prerender.ts",
     "src/app/seo/indexableRoutes.ts",
     "src/app/market/types.ts",
     "api/**/*.ts"

@@ -71,6 +71,7 @@ Para una futura `/materiales/bronce`:
 2. Registrar la ruta en `src/app/router/router.tsx`.
 3. Agregar `/materiales/bronce` a `indexablePaths`.
 4. Declarar `*PageMeta` propio (title, description, canonical, breadcrumbs).
+5. Sumar un rewrite en `vercel.json` hacia `/materiales/bronce/index.html`.
 
 ### robots y entornos
 
@@ -89,13 +90,11 @@ Preview o staging: `VITE_INDEXABLE=false` o no definir `VITE_SITE_URL`.
 
 El isologo `src/assets/isoLogo.png` se copia a `public/favicon.png` y `public/apple-touch-icon.png`. El manifest (`public/site.webmanifest`) completa identidad; no es una PWA.
 
-### Limitación SPA
+### Prerender
 
-La metadata por ruta se aplica en el cliente. `index.html` deja un fallback válido para `/` (title, description, OG, Twitter, JSON-LD base).
+El build genera HTML estático para cada ruta de `indexablePaths`. Crawlers y shares (LinkedIn, WhatsApp, X, Facebook) reciben title, description, Open Graph y el contenido de esa página, no el esqueleto de la home.
 
-Google suele ejecutar JavaScript. Facebook, LinkedIn, WhatsApp y algunos crawlers leen el HTML inicial: un share de `/materiales` puede mostrar la metadata de home hasta que exista prerender.
-
-No se agregó prerender ni SSR para no cambiar el hosting. Cuando el orgánico o los shares lo exijan, la opción mínima compatible con Vite es un prerender estático de las 6 rutas públicas (por ejemplo `vite-plugin-prerender` o un paso de build que emita HTML por ruta), sin migrar a Next.js.
+El cliente sigue siendo una SPA: después del HTML inicial, React monta la app y la navegación interna no recarga.
 
 ## Referencias de mercado
 
