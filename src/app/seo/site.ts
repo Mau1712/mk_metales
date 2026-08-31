@@ -11,12 +11,12 @@ export const siteIdentity = {
   ogLocale: "es",
   themeColor: "#1E232B",
   backgroundColor: "#1E232B",
-  defaultOgImagePath: "/og/mk-metales-default.png",
+  defaultOgImagePath: "/og/mk-metales-default.jpg",
   defaultOgImageAlt:
     "Operario de MK Metales en un predio industrial junto a una grúa que manipula scrap metálico",
-  defaultOgImageWidth: 1717,
-  defaultOgImageHeight: 916,
-  logoPath: "/favicon.png",
+  defaultOgImageWidth: 1200,
+  defaultOgImageHeight: 630,
+  logoPath: "/icon-192.png",
 } as const;
 
 export const socialProfiles = {

@@ -1,5 +1,5 @@
 import { ArrowForwardIcon } from "@assets/icons";
-import isoLogoBgBlack from "@assets/isoLogo_bg_black.png";
+import isoLogoBgBlack from "@assets/isoLogo_bg_black.webp";
 import {
   companyContact,
   footerCopy,
@@ -39,8 +39,8 @@ export const SiteFooter = () => {
               <img
                 src={isoLogoBgBlack}
                 alt=""
-                width={1536}
-                height={1024}
+                width={384}
+                height={256}
                 loading="lazy"
                 decoding="async"
               />

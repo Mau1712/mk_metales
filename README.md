@@ -49,7 +49,7 @@ El cotizador siempre canibaliza a `/cotizador`. Los query params (`?material=`, 
 
 Open Graph cubre Facebook, LinkedIn y WhatsApp. No hay tags propietarios de Facebook ni LinkedIn: no existen App ID ni perfiles confirmados.
 
-Imagen social: `/og/mk-metales-default.png` (copia pública de la fotografía industrial del Hero, 1717×916). No es el favicon. Si más adelante hay un recorte 1200×630, reemplazar ese archivo sin cambiar la ruta.
+Imagen social: `/og/mk-metales-default.jpg` (recorte 1200×630 de la fotografía industrial del Hero). No es el favicon.
 
 ### Schema.org
 
@@ -88,7 +88,7 @@ Preview o staging: `VITE_INDEXABLE=false` o no definir `VITE_SITE_URL`.
 
 ### Favicon y manifest
 
-El isologo `src/assets/isoLogo.png` se copia a `public/favicon.png` y `public/apple-touch-icon.png`. El manifest (`public/site.webmanifest`) completa identidad; no es una PWA.
+Favicon 32×32 (`/favicon.png`), Apple touch 180×180 y logo de Schema/manifest 192×192 (`/icon-192.png`), recortados desde `src/assets/isoLogo.png`. El manifest completa identidad; no es una PWA.
 
 ### Prerender
 

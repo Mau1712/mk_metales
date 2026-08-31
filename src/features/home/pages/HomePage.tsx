@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useDocumentMeta } from "@app/seo";
-import heroImage from "@assets/home/MK_Metales_Hero_1.png";
+import heroImage from "@assets/home/MK_Metales_Hero_1.webp";
 import { HeroBanner } from "../components/heroBanner/HeroBanner";
 import { ClosingCtaSection } from "../components/closingCtaSection/ClosingCtaSection";
 import { FaqSection } from "../components/faqSection/FaqSection";

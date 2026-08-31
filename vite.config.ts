@@ -112,7 +112,7 @@ const createSeoPlugin = (options: {
 
       if (options.siteUrl) {
         const origin = trimTrailingSlash(options.siteUrl);
-        const image = `${origin}/og/mk-metales-default.png`;
+        const image = `${origin}/og/mk-metales-default.jpg`;
 
         next = next
           .replace(

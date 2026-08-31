@@ -29,8 +29,10 @@ export const heroBenefits = [
   { id: "circular", line1: "Economía", line2: "circular" },
 ] as const;
 
-/** WhatsApp comercial. Null hasta que el negocio confirme el número. */
-export const heroWhatsAppUrl: string | null = null;
+const heroWhatsAppMessage =
+  "Hola, quiero consultar por una operación de scrap industrial.";
+
+export const heroWhatsAppUrl = `https://wa.me/5491150031955?text=${encodeURIComponent(heroWhatsAppMessage)}`;
 
 export const materialsCopy = {
   eyebrow: "Materiales",

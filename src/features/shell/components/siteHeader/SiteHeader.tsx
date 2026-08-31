@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { CloseIcon, MenuIcon } from "@assets/icons";
-import isoLogoBgBlack from "@assets/isoLogo_bg_black.png";
+import isoLogoBgBlack from "@assets/isoLogo_bg_black.webp";
 import { OffCanvas } from "@shared/ui/overlays/offCanvas/OffCanvas";
 import { navItems } from "../../data";
 import {
@@ -88,8 +88,8 @@ export const SiteHeader = () => {
         <LogoImageElement
           src={isoLogoBgBlack}
           alt=""
-          width={1536}
-          height={1024}
+          width={384}
+          height={256}
           decoding="async"
         />
       </LogoLinkElement>
@@ -143,8 +143,8 @@ export const SiteHeader = () => {
             <LogoImageElement
               src={isoLogoBgBlack}
               alt=""
-              width={1536}
-              height={1024}
+              width={384}
+              height={256}
               decoding="async"
             />
           </LogoLinkElement>

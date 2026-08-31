@@ -3,7 +3,7 @@ import {
   RecycleBenefitIcon,
   ValueBenefitIcon,
 } from "@assets/icons";
-import heroImage from "@assets/home/MK_Metales_Hero_1.png";
+import heroImage from "@assets/home/MK_Metales_Hero_1.webp";
 import { heroBenefits, heroCopy, heroWhatsAppUrl } from "../../data";
 import {
   HeroActionsElement,
@@ -35,8 +35,8 @@ export const HeroBanner = () => {
       <HeroBannerImageElement
         src={heroImage}
         alt={heroCopy.imageAlt}
-        width={1717}
-        height={916}
+        width={1600}
+        height={854}
         fetchPriority="high"
         decoding="async"
       />

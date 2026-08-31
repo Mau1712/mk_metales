@@ -1,4 +1,4 @@
-import solutionsBannerImage from "@assets/sInd/MK_Metales_S.png";
+import solutionsBannerImage from "@assets/sInd/MK_Metales_S.webp";
 import { solutionsBannerCopy } from "../../data";
 import {
   SolutionsBannerElement,

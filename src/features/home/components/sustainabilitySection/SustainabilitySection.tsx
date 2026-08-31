@@ -6,7 +6,7 @@ import {
   RecycleBenefitIcon,
   SyncIcon,
 } from "@assets/icons";
-import sustainabilityImage from "@assets/home/MK_Metales_sustentabilidad.png";
+import sustainabilityImage from "@assets/home/MK_Metales_sustentabilidad.webp";
 import {
   sustainabilityConcepts,
   sustainabilityCopy,
@@ -63,8 +63,8 @@ export const SustainabilitySection = () => {
           <SustainabilityImageElement
             src={sustainabilityImage}
             alt={sustainabilityCopy.imageAlt}
-            width={1717}
-            height={453}
+            width={1600}
+            height={422}
             loading="lazy"
             decoding="async"
           />
