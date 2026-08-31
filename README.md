@@ -96,6 +96,18 @@ El build genera HTML estático para cada ruta de `indexablePaths`. Crawlers y sh
 
 El cliente sigue siendo una SPA: después del HTML inicial, React monta la app y la navegación interna no recarga.
 
+### 404 y redirecciones
+
+No hay rewrite catch-all hacia la home. Una URL que no existe sirve `dist/404.html` con **HTTP 404**, `noindex` y la página de error real. Así se evita el soft 404.
+
+Redirecciones **301**:
+
+- `/materiales/` → `/materiales` (cualquier ruta con barra final, salvo `/`)
+- `/index.html` → `/`
+- `/materiales/index.html` → `/materiales`
+
+Al agregar una ruta pública, además del router y `indexablePaths`, sumar el rewrite en `vercel.json`.
+
 ## Referencias de mercado
 
 El cotizador todavía no calcula precios. La integración actual solo obtiene benchmarks USD/kg.

@@ -43,7 +43,7 @@ export const solutionsIntroCopy = {
 
 export const solutionsBannerCopy = {
   imageAlt:
-    "Rezagos metálicos industriales junto a la marca MK Metales y el lema recuperamos hoy, construimos mañana",
+    "Rezagos metálicos industriales junto al logo de MK Metales y el lema Recuperamos hoy, construimos mañana",
 } as const;
 
 export const solutionsOperationsCopy = {

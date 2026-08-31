@@ -13,7 +13,7 @@ export const siteIdentity = {
   backgroundColor: "#1E232B",
   defaultOgImagePath: "/og/mk-metales-default.png",
   defaultOgImageAlt:
-    "Operación industrial de MK Metales con scrap metálico clasificado",
+    "Operario de MK Metales en un predio industrial junto a una grúa que manipula scrap metálico",
   defaultOgImageWidth: 1717,
   defaultOgImageHeight: 916,
   logoPath: "/favicon.png",

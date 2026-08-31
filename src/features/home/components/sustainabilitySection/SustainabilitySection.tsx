@@ -63,6 +63,8 @@ export const SustainabilitySection = () => {
           <SustainabilityImageElement
             src={sustainabilityImage}
             alt={sustainabilityCopy.imageAlt}
+            width={1717}
+            height={453}
             loading="lazy"
             decoding="async"
           />

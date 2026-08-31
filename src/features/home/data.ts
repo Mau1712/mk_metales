@@ -19,6 +19,8 @@ export const heroCopy = {
   secondaryCta: {
     label: "Hablar por WhatsApp",
   },
+  imageAlt:
+    "Operario de MK Metales en un predio industrial junto a una grúa que manipula scrap metálico",
 } as const;
 
 export const heroBenefits = [
@@ -266,7 +268,7 @@ export const sustainabilityCopy = {
     "Al comercializar estos materiales directamente hacia fundiciones, el scrap vuelve a transformarse en materia prima en lugar de permanecer como descarte industrial.",
   statement: "Recuperar metales también es recuperar recursos.",
   imageAlt:
-    "Scrap metálico industrial recuperado dentro de una planta",
+    "Rezagos metálicos industriales y viruta en una planta de recuperación, con maquinaria al fondo",
   primaryCta: {
     label: "Conocer nuestro enfoque",
     to: "/sustentabilidad",

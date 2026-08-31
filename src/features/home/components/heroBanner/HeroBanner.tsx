@@ -3,11 +3,13 @@ import {
   RecycleBenefitIcon,
   ValueBenefitIcon,
 } from "@assets/icons";
+import heroImage from "@assets/home/MK_Metales_Hero_1.png";
 import { heroBenefits, heroCopy, heroWhatsAppUrl } from "../../data";
 import {
   HeroActionsElement,
   HeroBannerContentElement,
   HeroBannerElement,
+  HeroBannerImageElement,
   HeroBannerInnerElement,
   HeroBenefitItemElement,
   HeroBenefitLabelElement,
@@ -30,6 +32,14 @@ const benefitIcons = {
 export const HeroBanner = () => {
   return (
     <HeroBannerElement aria-labelledby="home-hero-title">
+      <HeroBannerImageElement
+        src={heroImage}
+        alt={heroCopy.imageAlt}
+        width={1717}
+        height={916}
+        fetchPriority="high"
+        decoding="async"
+      />
       <HeroBannerInnerElement>
         <HeroBannerContentElement>
           <HeroEyebrowElement>{heroCopy.eyebrow}</HeroEyebrowElement>

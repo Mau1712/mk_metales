@@ -19,6 +19,8 @@ import {
 export interface ImageLightboxItem {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
 }
 
 interface ImageLightboxProps {
@@ -155,6 +157,9 @@ export const ImageLightbox = ({
           <ImageLightboxImageElement
             src={currentImage.src}
             alt={currentImage.alt}
+            width={currentImage.width}
+            height={currentImage.height}
+            decoding="async"
           />
           <ImageLightboxCaptionElement id={titleId}>
             {currentImage.alt}

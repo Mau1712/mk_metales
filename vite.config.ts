@@ -1,5 +1,6 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { extname, resolve as resolvePath } from "node:path";
+import type { ServerResponse } from "node:http";
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig, loadEnv, type Connect, type Plugin, type PreviewServer } from "vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
@@ -13,28 +14,76 @@ const resolveSrc = (segment = "") =>
 
 const trimTrailingSlash = (value: string) => value.replace(/\/+$/, "");
 
-const rewriteToPrerenderedIndex = (rootDir: string) => {
+const sendRedirect = (response: ServerResponse, location: string) => {
+  response.statusCode = 301;
+  response.setHeader("Location", location);
+  response.end();
+};
+
+const sendNotFound = (rootDir: string, response: ServerResponse) => {
+  const filePath = resolvePath(rootDir, "404.html");
+  response.statusCode = 404;
+  response.setHeader("Content-Type", "text/html; charset=utf-8");
+  response.setHeader("X-Robots-Tag", "noindex, nofollow");
+
+  if (existsSync(filePath)) {
+    response.end(readFileSync(filePath));
+    return;
+  }
+
+  response.end("Not Found");
+};
+
+const configurePreviewSeo = (rootDir: string) => {
   return (
     request: Connect.IncomingMessage,
-    _response: unknown,
+    response: ServerResponse,
     next: Connect.NextFunction,
   ) => {
     const raw = request.url ?? "/";
     const [pathname, search = ""] = raw.split("?");
+    const query = search ? `?${search}` : "";
 
-    if (!pathname || pathname === "/" || extname(pathname)) {
+    if (!pathname || pathname.startsWith("/api/")) {
       next();
       return;
     }
 
-    const normalized = pathname.replace(/\/+$/, "");
-    const filePath = resolvePath(rootDir, normalized.slice(1), "index.html");
-
-    if (existsSync(filePath)) {
-      request.url = `${normalized}/index.html${search ? `?${search}` : ""}`;
+    if (pathname === "/index.html") {
+      sendRedirect(response, `/${query}`);
+      return;
     }
 
-    next();
+    if (pathname.endsWith("/index.html")) {
+      const canonical = pathname.slice(0, -"/index.html".length);
+      sendRedirect(response, `${canonical || "/"}${query}`);
+      return;
+    }
+
+    if (extname(pathname)) {
+      next();
+      return;
+    }
+
+    if (pathname !== "/" && pathname.endsWith("/")) {
+      sendRedirect(response, `${pathname.replace(/\/+$/, "")}${query}`);
+      return;
+    }
+
+    if (pathname === "/") {
+      next();
+      return;
+    }
+
+    const prerendered = resolvePath(rootDir, pathname.slice(1), "index.html");
+
+    if (existsSync(prerendered)) {
+      request.url = `${pathname}/index.html${query}`;
+      next();
+      return;
+    }
+
+    sendNotFound(rootDir, response);
   };
 };
 
@@ -52,7 +101,7 @@ const createSeoPlugin = (options: {
       isSsrBuild = Boolean(config.build.ssr);
     },
     configurePreviewServer(server: PreviewServer) {
-      server.middlewares.use(rewriteToPrerenderedIndex(resolvePath(outDir)));
+      server.middlewares.use(configurePreviewSeo(resolvePath(outDir)));
     },
     transformIndexHtml(html) {
       const robots = options.indexable ? "index, follow" : "noindex, nofollow";

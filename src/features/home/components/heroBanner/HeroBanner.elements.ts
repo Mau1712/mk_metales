@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import heroImage from "@assets/home/MK_Metales_Hero_1.png";
 import { SectionContainer } from "@shared/ui/containers/sectionContainer/SectionContainer";
 import { pxToRem } from "@shared/utils/styles-utils";
 
@@ -14,15 +13,12 @@ export const HeroBannerElement = styled.section`
   min-height: calc(100svh - ${({ theme }) => `calc(${theme.spacing(2)} * 2 + ${theme.spacing(8)})`});
   overflow: hidden;
   background-color: ${({ theme }) => theme.color.background.primary};
-  background-image: url(${heroImage});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 58% center;
 
   &::before {
     content: "";
     position: absolute;
     inset: 0;
+    z-index: ${({ theme }) => theme.zIndex.base + 1};
     pointer-events: none;
     background: linear-gradient(
       90deg,
@@ -48,15 +44,10 @@ export const HeroBannerElement = styled.section`
     );
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mediumDesktop}) {
-    background-position: 68% center;
-  }
-
   @media (max-width: ${({ theme }) => theme.breakpoints.smallDesktop}) {
     min-height: calc(
       100svh - ${({ theme }) => `calc(${theme.spacing(2)} * 2 + ${theme.spacing(6)})`}
     );
-    background-position: 74% center;
 
     &::before {
       background: linear-gradient(
@@ -86,7 +77,6 @@ export const HeroBannerElement = styled.section`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     min-height: min(100svh, ${pxToRem(760)});
-    background-position: 82% center;
 
     &::before {
       background:
@@ -128,6 +118,30 @@ export const HeroBannerElement = styled.section`
           transparent 100%
         );
     }
+  }
+`;
+
+export const HeroBannerImageElement = styled.img`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% center;
+  pointer-events: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mediumDesktop}) {
+    object-position: 68% center;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.smallDesktop}) {
+    object-position: 74% center;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    object-position: 82% center;
   }
 `;
 

@@ -9,3 +9,6 @@ export const indexablePaths = [
 ] as const;
 
 export type IndexablePath = (typeof indexablePaths)[number];
+
+/** Path used only to SSR the catch-all page into dist/404.html. Not in the sitemap. */
+export const notFoundPrerenderPath = "/404";

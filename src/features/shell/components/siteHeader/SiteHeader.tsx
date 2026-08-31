@@ -90,6 +90,7 @@ export const SiteHeader = () => {
           alt=""
           width={1536}
           height={1024}
+          decoding="async"
         />
       </LogoLinkElement>
 
@@ -144,6 +145,7 @@ export const SiteHeader = () => {
               alt=""
               width={1536}
               height={1024}
+              decoding="async"
             />
           </LogoLinkElement>
           <CloseButtonElement

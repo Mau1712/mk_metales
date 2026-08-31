@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
 import { useDocumentMeta } from "@app/seo";
 import { notFoundCopy, notFoundPageMeta } from "../data";
 import {
@@ -15,16 +13,7 @@ import {
 } from "./NotFoundPage.elements";
 
 export const NotFoundPage = () => {
-  const { pathname } = useLocation();
-  const meta = useMemo(
-    () => ({
-      ...notFoundPageMeta,
-      canonicalPath: pathname,
-    }),
-    [pathname],
-  );
-
-  useDocumentMeta(meta);
+  useDocumentMeta(notFoundPageMeta);
 
   return (
     <NotFoundPageElement>

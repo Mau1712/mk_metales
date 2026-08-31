@@ -41,6 +41,8 @@ export const SiteFooter = () => {
                 alt=""
                 width={1536}
                 height={1024}
+                loading="lazy"
+                decoding="async"
               />
             </SiteFooterLogoElement>
             <SiteFooterBrandLeadElement>

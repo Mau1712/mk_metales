@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { indexablePaths } from "./src/app/seo/indexableRoutes.ts";
+import { indexablePaths, notFoundPrerenderPath } from "./src/app/seo/indexableRoutes.ts";
 
 const SSR_OUT_DIR = "dist-ssr";
 
@@ -68,4 +68,9 @@ export const prerenderPublicRoutes = async (outDir: string) => {
     writeFileSync(filePath, html, "utf8");
     console.info(`Prerendered ${route} → ${filePath}`);
   }
+
+  const notFoundHtml = module.render(notFoundPrerenderPath, template);
+  const notFoundFile = join(outDir, "404.html");
+  writeFileSync(notFoundFile, notFoundHtml, "utf8");
+  console.info(`Prerendered ${notFoundPrerenderPath} → ${notFoundFile}`);
 };
