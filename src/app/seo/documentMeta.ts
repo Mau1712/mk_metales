@@ -1,6 +1,7 @@
 import {
   isIndexableEnv,
   joinCanonicalPath,
+  robotsDirectives,
   siteIdentity,
   socialProfiles,
   toAbsoluteUrl,
@@ -19,6 +20,9 @@ export type ResolvedDocumentMeta = {
   canonicalUrl: string;
   robots: string;
   themeColor: string;
+  author: string;
+  applicationName: string;
+  formatDetection: string;
   ogTitle: string;
   ogDescription: string;
   ogUrl: string;
@@ -29,6 +33,7 @@ export type ResolvedDocumentMeta = {
   ogImageAlt: string | null;
   ogImageWidth: string | null;
   ogImageHeight: string | null;
+  ogImageType: string | null;
   twitterCard: "summary_large_image" | "summary";
   twitterSite: string | null;
   twitterCreator: string | null;
@@ -93,8 +98,14 @@ export const resolveDocumentMeta = (meta: DocumentMeta): ResolvedDocumentMeta =>
     description,
     canonicalUrl,
     robots:
-      meta.robots ?? (isIndexableEnv() ? "index, follow" : "noindex, nofollow"),
+      meta.robots ??
+      (isIndexableEnv()
+        ? robotsDirectives.indexable
+        : robotsDirectives.blocked),
     themeColor: siteIdentity.themeColor,
+    author: siteIdentity.brandName,
+    applicationName: siteIdentity.siteName,
+    formatDetection: "telephone=no",
     ogTitle,
     ogDescription,
     ogUrl: toAbsoluteUrl(canonicalPath) ?? canonicalPath,
@@ -105,6 +116,7 @@ export const resolveDocumentMeta = (meta: DocumentMeta): ResolvedDocumentMeta =>
     ogImageAlt: ogImageUrl ? ogImageAlt : null,
     ogImageWidth: ogImageUrl ? ogImageWidth : null,
     ogImageHeight: ogImageUrl ? ogImageHeight : null,
+    ogImageType: ogImageUrl ? siteIdentity.defaultOgImageType : null,
     twitterCard: ogImageUrl ? "summary_large_image" : "summary",
     twitterSite: socialProfiles.twitterSite,
     twitterCreator: socialProfiles.twitterCreator,
@@ -208,6 +220,15 @@ export const applyDocumentMetaToHtml = (
   next = upsertMetaTag(next, "name", "description", resolved.description);
   next = upsertMetaTag(next, "name", "robots", resolved.robots);
   next = upsertMetaTag(next, "name", "theme-color", resolved.themeColor);
+  next = upsertMetaTag(next, "name", "author", resolved.author);
+  next = upsertMetaTag(next, "name", "application-name", resolved.applicationName);
+  next = upsertMetaTag(
+    next,
+    "name",
+    "apple-mobile-web-app-title",
+    resolved.applicationName,
+  );
+  next = upsertMetaTag(next, "name", "format-detection", resolved.formatDetection);
   next = upsertMetaTag(next, "property", "og:title", resolved.ogTitle);
   next = upsertMetaTag(next, "property", "og:description", resolved.ogDescription);
   next = upsertMetaTag(next, "property", "og:url", resolved.ogUrl);
@@ -218,6 +239,7 @@ export const applyDocumentMetaToHtml = (
   next = upsertMetaTag(next, "property", "og:image:alt", resolved.ogImageAlt);
   next = upsertMetaTag(next, "property", "og:image:width", resolved.ogImageWidth);
   next = upsertMetaTag(next, "property", "og:image:height", resolved.ogImageHeight);
+  next = upsertMetaTag(next, "property", "og:image:type", resolved.ogImageType);
   next = upsertMetaTag(next, "name", "twitter:card", resolved.twitterCard);
   next = upsertMetaTag(next, "name", "twitter:title", resolved.ogTitle);
   next = upsertMetaTag(next, "name", "twitter:description", resolved.ogDescription);
@@ -330,6 +352,10 @@ export const applyDocumentMetaToDocument = (meta: DocumentMeta) => {
   upsertMeta("name", "description", resolved.description);
   upsertMeta("name", "robots", resolved.robots);
   upsertMeta("name", "theme-color", resolved.themeColor);
+  upsertMeta("name", "author", resolved.author);
+  upsertMeta("name", "application-name", resolved.applicationName);
+  upsertMeta("name", "apple-mobile-web-app-title", resolved.applicationName);
+  upsertMeta("name", "format-detection", resolved.formatDetection);
   upsertMeta("property", "og:title", resolved.ogTitle);
   upsertMeta("property", "og:description", resolved.ogDescription);
   upsertMeta("property", "og:url", resolved.ogUrl);
@@ -340,6 +366,7 @@ export const applyDocumentMetaToDocument = (meta: DocumentMeta) => {
   upsertMeta("property", "og:image:alt", resolved.ogImageAlt);
   upsertMeta("property", "og:image:width", resolved.ogImageWidth);
   upsertMeta("property", "og:image:height", resolved.ogImageHeight);
+  upsertMeta("property", "og:image:type", resolved.ogImageType);
   upsertMeta("name", "twitter:card", resolved.twitterCard);
   upsertMeta("name", "twitter:title", resolved.ogTitle);
   upsertMeta("name", "twitter:description", resolved.ogDescription);

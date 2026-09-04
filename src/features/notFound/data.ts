@@ -1,9 +1,11 @@
+import { robotsDirectives } from "@app/seo/site";
+
 export const notFoundPageMeta = {
   title: "Página no encontrada | MK Metales",
   description:
     "La dirección solicitada no existe. Volvé al inicio o usá el cotizador para evaluar scrap industrial.",
   canonicalPath: "/",
-  robots: "noindex, nofollow",
+  robots: robotsDirectives.notFound,
 } as const;
 
 export const notFoundCopy = {

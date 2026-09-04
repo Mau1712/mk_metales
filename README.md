@@ -82,7 +82,7 @@ En el build:
 - indexable (`production` + `VITE_SITE_URL`, o `VITE_INDEXABLE=true`): `Allow: /` y `Sitemap: {SITE_URL}/sitemap.xml`
 - no indexable: `Disallow: /`
 
-`index.html` arranca con `noindex, nofollow`. El plugin de Vite lo cambia a `index, follow` cuando el build es indexable.
+`index.html` arranca con `noindex, nofollow`. El plugin de Vite lo cambia a `index, follow, max-image-preview:large` cuando el build es indexable. La 404 queda en `noindex, follow`.
 
 Preview o staging: `VITE_INDEXABLE=false` o no definir `VITE_SITE_URL`.
 

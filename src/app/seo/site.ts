@@ -7,8 +7,7 @@ export const siteIdentity = {
   defaultDescription:
     "Recuperamos y valorizamos scrap metálico proveniente de procesos industriales para reincorporarlo a la cadena productiva.",
   language: "es",
-  locale: "es",
-  ogLocale: "es",
+  ogLocale: "es_AR",
   themeColor: "#1E232B",
   backgroundColor: "#1E232B",
   defaultOgImagePath: "/og/mk-metales-default.jpg",
@@ -16,7 +15,16 @@ export const siteIdentity = {
     "Operario de MK Metales en un predio industrial junto a una grúa que manipula scrap metálico",
   defaultOgImageWidth: 1200,
   defaultOgImageHeight: 630,
+  defaultOgImageType: "image/jpeg",
   logoPath: "/icon-192.png",
+  logoWidth: 192,
+  logoHeight: 192,
+} as const;
+
+export const robotsDirectives = {
+  indexable: "index, follow, max-image-preview:large",
+  blocked: "noindex, nofollow",
+  notFound: "noindex, follow",
 } as const;
 
 export const socialProfiles = {

@@ -6,6 +6,7 @@ export {
   getConfiguredSiteUrl,
   isIndexableEnv,
   resolveSiteUrl,
+  robotsDirectives,
   siteIdentity,
   toAbsoluteUrl,
 } from "./site.ts";

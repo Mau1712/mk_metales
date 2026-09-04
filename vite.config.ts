@@ -24,7 +24,7 @@ const sendNotFound = (rootDir: string, response: ServerResponse) => {
   const filePath = resolvePath(rootDir, "404.html");
   response.statusCode = 404;
   response.setHeader("Content-Type", "text/html; charset=utf-8");
-  response.setHeader("X-Robots-Tag", "noindex, nofollow");
+  response.setHeader("X-Robots-Tag", "noindex, follow");
 
   if (existsSync(filePath)) {
     response.end(readFileSync(filePath));
@@ -104,7 +104,9 @@ const createSeoPlugin = (options: {
       server.middlewares.use(configurePreviewSeo(resolvePath(outDir)));
     },
     transformIndexHtml(html) {
-      const robots = options.indexable ? "index, follow" : "noindex, nofollow";
+      const robots = options.indexable
+        ? "index, follow, max-image-preview:large"
+        : "noindex, nofollow";
       let next = html.replace(
         /<meta name="robots" content="[^"]*" \/>/,
         `<meta name="robots" content="${robots}" />`,
