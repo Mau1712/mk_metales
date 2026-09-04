@@ -1,10 +1,10 @@
-import type { MetalBenchmarks } from "../../src/app/market/types.ts";
+import type { MetalBenchmarks } from "../../src/app/market/types.js";
 import {
   MarketDataInternalError,
   publicErrorBody,
-} from "./errors.ts";
-import { fetchMetalsDevLatest } from "./metalsDevClient.ts";
-import { toMetalBenchmarks } from "./metalsDevAdapter.ts";
+} from "./errors.js";
+import { fetchMetalsDevLatest } from "./metalsDevClient.js";
+import { toMetalBenchmarks } from "./metalsDevAdapter.js";
 
 export const SUCCESS_CACHE_HEADERS = {
   "Cache-Control": "public, max-age=0, must-revalidate",

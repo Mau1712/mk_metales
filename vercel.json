@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/metal-prices.ts": {
+      "includeFiles": "src/app/market/types.ts"
+    }
+  },
   "redirects": [
     {
       "source": "/index.html",

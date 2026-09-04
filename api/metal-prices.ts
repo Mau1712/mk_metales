@@ -1,4 +1,4 @@
-import { handleMetalPrices } from "./market/handleMetalPrices.ts";
+import { handleMetalPrices } from "./market/handleMetalPrices.js";
 
 const applyResult = async () => {
   const result = await handleMetalPrices();
@@ -10,5 +10,15 @@ const applyResult = async () => {
 };
 
 export const GET = async () => {
-  return applyResult();
+  try {
+    return await applyResult();
+  } catch {
+    return Response.json(
+      { status: "error", code: "MARKET_DATA_UNAVAILABLE" },
+      {
+        status: 503,
+        headers: { "Cache-Control": "no-store" },
+      },
+    );
+  }
 };

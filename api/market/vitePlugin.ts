@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Plugin } from "vite";
-import { handleMetalPrices } from "./handleMetalPrices.ts";
+import { handleMetalPrices } from "./handleMetalPrices.js";
 
 const METAL_PRICES_PATH = "/api/metal-prices";
 

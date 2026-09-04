@@ -1,4 +1,4 @@
-import { MarketDataInternalError } from "./errors.ts";
+import { MarketDataInternalError } from "./errors.js";
 
 const METALS_DEV_LATEST_URL = "https://api.metals.dev/v1/latest";
 export const METALS_DEV_TIMEOUT_MS = 8000;

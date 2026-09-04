@@ -2,9 +2,9 @@ import {
   benchmarkMetalIds,
   type BenchmarkQuotes,
   type MetalBenchmarks,
-} from "../../src/app/market/types.ts";
-import { MarketDataInternalError } from "./errors.ts";
-import type { MetalsDevLatestPayload } from "./metalsDevClient.ts";
+} from "../../src/app/market/types.js";
+import { MarketDataInternalError } from "./errors.js";
+import type { MetalsDevLatestPayload } from "./metalsDevClient.js";
 
 const SPOT_KEYS = {
   aluminum: "aluminum",
