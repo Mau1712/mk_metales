@@ -51,9 +51,9 @@ export interface CompanyContact {
 
 export const companyContact: CompanyContact = {
   whatsappUrl: "https://wa.me/5491124783732",
-  phone: null,
-  email: null,
-  location: null,
+  phone: "+54 11 5003-1955",
+  email: "info@mkmetales.com",
+  location: "Buenos Aires",
 };
 
 export const whatsAppFloatCopy = {

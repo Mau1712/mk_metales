@@ -43,6 +43,13 @@ export const buildOrganizationNode = (): JsonLdNode => {
     description: siteIdentity.defaultDescription,
     telephone: organizationContacts.telephone,
     email: organizationContacts.email,
+    address: organizationContacts.location
+      ? compact({
+          "@type": "PostalAddress",
+          addressLocality: organizationContacts.location,
+          addressCountry: "AR",
+        })
+      : undefined,
     sameAs: socialProfiles.sameAs.length > 0 ? [...socialProfiles.sameAs] : undefined,
   });
 };

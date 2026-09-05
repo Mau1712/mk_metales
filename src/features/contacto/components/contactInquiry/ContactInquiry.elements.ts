@@ -125,6 +125,7 @@ export const ContactInquiryNoteElement = styled.p`
 export const ContactDetailsElement = styled.dl`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.spacing(1.5)};
   width: 100%;
   margin: ${({ theme }) => `${theme.spacing(4)} 0 0`};
@@ -136,11 +137,16 @@ export const ContactDetailItemElement = styled.div`
   gap: ${({ theme }) => theme.spacing(0.25)};
 
   dt {
+    margin: 0;
     color: ${({ theme }) => theme.color.steel};
     font-size: ${({ theme }) => theme.typography.fontSizes.small};
     font-weight: ${({ theme }) => theme.typography.fontWeight.semiBold};
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
   }
 
   dd,

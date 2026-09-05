@@ -35,7 +35,7 @@ En production no se usa `localhost` como fallback. Sin `VITE_SITE_URL`, las URLs
 
 `src/app/seo/site.ts` define identidad, locale (`es`), colores de theme, imagen Open Graph por defecto y resolución de URL.
 
-Teléfono, email, dirección y redes se leen de `src/features/shell/data.ts` (`companyContact`, `footerSocialLinks`). Hoy están vacíos: no se publican en Schema.
+Teléfono, email, dirección y redes se leen de `src/features/shell/data.ts` (`companyContact`, `footerSocialLinks`). Se publican email, teléfono y domicilio en Buenos Aires. Redes siguen vacías hasta confirmarlas.
 
 ### Metadata por página
 
