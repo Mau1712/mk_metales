@@ -117,6 +117,8 @@ export const contactFormCopy = {
     "Las fotografías pueden ayudar a evaluar el material. Esta opción estará disponible durante el proceso de cotización.",
   submitIdle: "Enviar consulta",
   submitPending: "Enviando...",
+  submitIncompleteHint:
+    "Completá nombre, teléfono, email, material y mensaje para enviar.",
   submitHint:
     "Nuestro equipo revisará la información para continuar la evaluación comercial.",
   successTitle: "Consulta recibida",

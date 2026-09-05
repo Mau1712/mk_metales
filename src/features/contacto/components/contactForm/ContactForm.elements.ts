@@ -244,25 +244,37 @@ export const ContactFormActionsElement = styled.div`
   gap: ${({ theme }) => theme.spacing(1.25)};
 `;
 
-export const ContactFormSubmitElement = styled.button`
+export const ContactFormSubmitElement = styled.button<{ $inactive: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: ${pxToRem(52)};
   padding: 0 ${pxToRem(22)};
-  border: 1px solid ${({ theme }) => theme.color.button.primary.default};
+  border: 1px solid
+    ${({ $inactive, theme }) =>
+      $inactive
+        ? theme.color.button.primary.disabled
+        : theme.color.button.primary.default};
   border-radius: ${({ theme }) => theme.radii.pill};
-  background: ${({ theme }) => theme.color.button.primary.default};
-  color: ${({ theme }) => theme.color.text.light};
+  background: ${({ $inactive, theme }) =>
+    $inactive
+      ? theme.color.button.primary.disabled
+      : theme.color.button.primary.default};
+  color: ${({ $inactive, theme }) =>
+    $inactive
+      ? `color-mix(in srgb, ${theme.color.text.light} 72%, transparent)`
+      : theme.color.text.light};
   font-family: ${({ theme }) => theme.typography.fontFamily.primary};
   font-size: ${({ theme }) => theme.typography.fontSizes.large};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semiBold};
   line-height: 1.2;
-  cursor: pointer;
+  cursor: ${({ $inactive }) => ($inactive ? "not-allowed" : "pointer")};
+  opacity: ${({ $inactive }) => ($inactive ? 0.72 : 1)};
   transition:
     background ${({ theme }) => theme.transitions.fast},
-    border-color ${({ theme }) => theme.transitions.fast};
+    border-color ${({ theme }) => theme.transitions.fast},
+    opacity ${({ theme }) => theme.transitions.fast};
 
   &:hover:not(:disabled) {
     background: ${({ theme }) => theme.color.button.primary.hover};
@@ -275,7 +287,7 @@ export const ContactFormSubmitElement = styled.button`
   }
 
   &:disabled {
-    cursor: wait;
+    cursor: ${({ $inactive }) => ($inactive ? "not-allowed" : "wait")};
     border-color: ${({ theme }) => theme.color.button.primary.disabled};
     background: ${({ theme }) => theme.color.button.primary.disabled};
   }

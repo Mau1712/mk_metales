@@ -296,6 +296,8 @@ export const ContactForm = ({
   }
 
   const submitting = status === "submitting";
+  const canSubmit = Object.keys(validateValues(values)).length === 0;
+  const submitHintId = `${CONTACT_FORM_ID}-submit-hint`;
 
   return (
     <ContactFormElement
@@ -654,13 +656,20 @@ export const ContactForm = ({
       ) : null}
 
       <ContactFormActionsElement>
-        <ContactFormSubmitElement type="submit" disabled={submitting}>
+        <ContactFormSubmitElement
+          type="submit"
+          $inactive={!canSubmit}
+          disabled={submitting || !canSubmit}
+          aria-describedby={submitHintId}
+        >
           {submitting
             ? contactFormCopy.submitPending
             : contactFormCopy.submitIdle}
         </ContactFormSubmitElement>
-        <ContactFormHintElement>
-          {contactFormCopy.submitHint}
+        <ContactFormHintElement id={submitHintId}>
+          {canSubmit
+            ? contactFormCopy.submitHint
+            : contactFormCopy.submitIncompleteHint}
         </ContactFormHintElement>
       </ContactFormActionsElement>
     </ContactFormElement>
