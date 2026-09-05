@@ -16,9 +16,9 @@ export const siteIdentity = {
   defaultOgImageWidth: 1200,
   defaultOgImageHeight: 630,
   defaultOgImageType: "image/jpeg",
-  logoPath: "/icon-192.png",
-  logoWidth: 192,
-  logoHeight: 192,
+  logoPath: "/logo.png",
+  logoWidth: 512,
+  logoHeight: 512,
 } as const;
 
 export const robotsDirectives = {

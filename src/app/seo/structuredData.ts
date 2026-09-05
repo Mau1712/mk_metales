@@ -32,10 +32,12 @@ export const buildOrganizationNode = (): JsonLdNode => {
     "@id": url ? `${url}/#organization` : undefined,
     name: siteIdentity.brandName,
     url: url ?? undefined,
+    image: logo ?? undefined,
     logo: logo
       ? compact({
           "@type": "ImageObject",
           url: logo,
+          contentUrl: logo,
           width: siteIdentity.logoWidth,
           height: siteIdentity.logoHeight,
         })
