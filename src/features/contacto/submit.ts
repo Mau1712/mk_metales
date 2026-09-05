@@ -7,6 +7,25 @@ export type ContactSubmitResult =
 export const submitContactInquiry = async (
   inquiry: ContactInquiry,
 ): Promise<ContactSubmitResult> => {
-  void inquiry;
-  return { ok: false, code: "unavailable" };
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inquiry),
+    });
+
+    if (response.ok) {
+      return { ok: true };
+    }
+
+    if (response.status === 503) {
+      return { ok: false, code: "unavailable" };
+    }
+
+    return { ok: false, code: "error" };
+  } catch {
+    return { ok: false, code: "error" };
+  }
 };

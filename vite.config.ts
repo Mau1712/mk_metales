@@ -8,6 +8,7 @@ import babel from "@rolldown/plugin-babel";
 import { writeSeoStaticFiles } from "./seo-static.ts";
 import { prerenderPublicRoutes } from "./prerender.ts";
 import { createMetalPricesDevPlugin } from "./api/market/vitePlugin.ts";
+import { createContactDevPlugin } from "./api/contact/vitePlugin.ts";
 
 const resolveSrc = (segment = "") =>
   fileURLToPath(new URL(`./src${segment}`, import.meta.url));
@@ -151,6 +152,22 @@ export default defineConfig(({ mode }) => {
     process.env.METALS_DEV_API_KEY = env.METALS_DEV_API_KEY;
   }
 
+  if (env.HOSTINGER_MAIL_API_TOKEN && !process.env.HOSTINGER_MAIL_API_TOKEN) {
+    process.env.HOSTINGER_MAIL_API_TOKEN = env.HOSTINGER_MAIL_API_TOKEN;
+  }
+
+  if (env.HOSTINGER_MAILBOX_ID && !process.env.HOSTINGER_MAILBOX_ID) {
+    process.env.HOSTINGER_MAILBOX_ID = env.HOSTINGER_MAILBOX_ID;
+  }
+
+  if (env.CONTACT_TO_EMAIL && !process.env.CONTACT_TO_EMAIL) {
+    process.env.CONTACT_TO_EMAIL = env.CONTACT_TO_EMAIL;
+  }
+
+  if (env.HOSTINGER_MAIL_FROM && !process.env.HOSTINGER_MAIL_FROM) {
+    process.env.HOSTINGER_MAIL_FROM = env.HOSTINGER_MAIL_FROM;
+  }
+
   const rawSiteUrl = env.VITE_SITE_URL?.trim();
   const siteUrl = rawSiteUrl ? trimTrailingSlash(rawSiteUrl) : null;
   const indexable =
@@ -163,6 +180,7 @@ export default defineConfig(({ mode }) => {
       babel({ presets: [reactCompilerPreset()] }),
       createSeoPlugin({ siteUrl, indexable }),
       createMetalPricesDevPlugin(),
+      createContactDevPlugin(),
     ],
     resolve: {
       dedupe: ["react", "react-dom", "styled-components"],
